@@ -3,7 +3,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from main_app.forms import signUpForm
-
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
+from .models import Pet 
+from .forms import PetForm
 # Create your views here.
 
 # ------------------------- KL-todo apply auth routes ------------------------ #
@@ -38,3 +41,20 @@ def signup(request):
     form = signUpForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
+
+# Create your views here.
+
+S3_BASE_URL='https://s3-us-west-2.amazonaws.com/'
+BUCKET='lost-and-hound'
+
+
+def pets_index(request):
+  pets = Pet.objects.filter(user=request.user)
+  return render(request, 'pets/index.html', {'pets':pets})
+
+def pets_detail(request, pet_id):
+  pet = Pet.objects.get(id=pet_id)
+  pet_form = PetForm()
+  return render(request, 'pets/detail.html',{
+    'pet': pet, 'pet_form': pet_form
+  })

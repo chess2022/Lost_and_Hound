@@ -13,3 +13,10 @@ class signUpForm(UserCreationForm):
   class Meta:
     model = User
     fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+from django.forms import ModelForm
+from .models import Pet 
+
+class PetForm(ModelForm):
+  class Meta:
+    model = Pet
+    fields = ['TYPE', 'SEX']
