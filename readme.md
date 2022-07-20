@@ -5,7 +5,7 @@
 |-------|--------|
 | Project Name | The Lost & Hound |
 | Description | A lost and found app for furry (and feathery) family members. Post your lost or found pet, search through listings, generate a lost/found pet flyer and contact a lost pet's owner if their pet has been located. |
-| Developers | [Javier](https://github.com/), [Cheryl](https://github.com/chess2022), [Kelly](https://github.com/kellyluuu) |
+| Developers | [Javier](https://github.com/Vanillajaviscript), [Cheryl](https://github.com/chess2022), [Kelly](https://github.com/kellyluuu) |
 | Live Website |  |
 | Project Planning & Management |  |
 
