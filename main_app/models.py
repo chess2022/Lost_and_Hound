@@ -7,7 +7,7 @@ class Pet(models.Model):
   DOG = 'DG'
   CAT = 'CT'
   OTHER = 'OT'
-  PET_TYPE = [
+  TYPE = [
     (DOG, 'Dog'),
     (CAT, 'Cat'),
     (OTHER, 'Other')
@@ -19,7 +19,7 @@ class Pet(models.Model):
   breed = models.CharField(max_length=100, blank=False)
   MALE = 'ML'
   FEMALE = 'FM'
-  PET_SEX = [
+  SEX = [
     (MALE, 'Male'),
     (FEMALE, 'Female')
   ]
