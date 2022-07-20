@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 
 
 def home(request):
-    return HttpResponse('<a href = "/about"><h1>Hello World /ᐠ｡‸｡ᐟ\ﾉ</h1></a>')
+    return render(request, 'home.html')
 
 
 def about(request):
