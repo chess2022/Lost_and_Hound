@@ -10,7 +10,7 @@ class Pet(models.Model):
   DOG = 'DG'
   CAT = 'CT'
   OTHER = 'OT'
-  TYPE = [
+  PET_TYPE = [
     (DOG, 'Dog'),
     (CAT, 'Cat'),
     (OTHER, 'Other')
@@ -22,11 +22,19 @@ class Pet(models.Model):
   breed = models.CharField(max_length=100, blank=False)
   MALE = 'ML'
   FEMALE = 'FM'
-  SEX = [
+  PET_SEX = [
     (MALE, 'Male'),
     (FEMALE, 'Female')
   ]
+  sex = models.CharField(max_length=2, choices=PET_SEX, default=MALE)
   comments = models.TextField(blank=True)
+  LOST = 'LT'
+  FOUND = 'FD'
+  STATUS_OPTIONS = [
+    (LOST, 'Lost'),
+    (FOUND, 'Found')
+  ]
+  status = models.CharField(max_length=2, choices=STATUS_OPTIONS, default=LOST)
 
   def __str__(self):
     return self.name
