@@ -13,6 +13,9 @@ from .process import create_pdf
 from django.template.loader import render_to_string
 from main_app import models
 from django.contrib.auth.mixins import LoginRequiredMixin
+import uuid
+import boto3
+
 # Create your views here.
 
 # ------------------------- KL-todo apply auth routes ------------------------ #
@@ -65,6 +68,12 @@ def pets_detail(request, pet_id):
     'pet': pet, 'pet_form': pet_form
   })
 
+class PetCreate(LoginRequiredMixin, CreateView):
+  model = Pet
+  fields = '__all__'
+  def form_valid(self, form):
+    form.instance.user = self.request.user
+    return super().form_valid(form)
 
 # Create your views here.
 
