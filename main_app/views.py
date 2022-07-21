@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import Pet 
-# from .forms import PetForm
+from .forms import PetForm
 
 # Create your views here.
 

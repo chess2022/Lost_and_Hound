@@ -4,9 +4,6 @@ from django.urls import reverse
 # Create your models here.
 
 class Pet(models.Model):
-  class Meta:
-    verbose_name_plural = 'pets'
-    verbose_name = 'pet'
   DOG = 'DG'
   CAT = 'CT'
   OTHER = 'OT'
@@ -15,6 +12,7 @@ class Pet(models.Model):
     (CAT, 'Cat'),
     (OTHER, 'Other')
   ]
+  type = models.CharField(max_length=2, choices=PET_TYPE, default=DOG)
   name = models.CharField(max_length=100, blank=False)
   breed = models.CharField(max_length=100, blank=False)
   city = models.CharField(max_length=100, blank=False)
