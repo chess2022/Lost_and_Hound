@@ -62,9 +62,9 @@ S3_BASE_URL='https://s3-us-west-2.amazonaws.com/'
 BUCKET='lost-and-hound'
 
 
-# def pets_index(request):
-#   pets = Pet.objects.filter(user=request.user)
-#   return render(request, 'pets/index.html', {'pets':pets})
+def pets_index(request):
+  pets = Pet.objects.filter(user=request.user)
+  return render(request, 'pets/index.html', {'pets':pets})
 
 # def pets_detail(request, pet_id):
 #   pet = Pet.objects.get(id=pet_id)
@@ -93,10 +93,6 @@ class PetDelete(DeleteView):
   model = Pet
   success_url = '/pets/'
   
-# Create your views here.
-
-def home(request):
-    return HttpResponse('<h1>Hello World</h1>')
 
 class GeneratePdf(LoginRequiredMixin, View):
      def get(self, request, *args, **kwargs):
