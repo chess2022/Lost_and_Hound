@@ -9,7 +9,7 @@ from main_app import models
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
-from .models import Pet 
+from .models import Pet, Photo
 from .forms import PetForm
 from django.http import HttpResponse
 from django.views.generic import View
@@ -72,7 +72,7 @@ def lostandhound_index(request):
 def pets_detail(request, pet_id):
   pet = Pet.objects.get(id=pet_id)
   return render(request, 'pets/detail.html', {'pet': pet})
-  
+
 class PetCreate(LoginRequiredMixin, CreateView):
   model = Pet
   fields = '__all__'
@@ -103,4 +103,19 @@ class GeneratePdf(LoginRequiredMixin, View):
          
          # rendering the template
         return HttpResponse(pdf, content_type='application/pdf')
+
+def add_photo(request, pet_id):
+  photo_file = request.FILES.get('photo-file', None)
+  if photo_file:
+    s3 = boto3.client('s3')
+    key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+    print(key)
+    try:
+        s3.upload_fileobj(photo_file, BUCKET, key)
+        url = f"{S3_BASE_URL}{BUCKET}/{key}"
+        photo = Photo(url=url, pet_id=pet_id)
+        photo.save()
+    except:
+      print(("Photo upload to S3 unsuccessful"))
+  return redirect('detail', pet_id=pet_id)
 
