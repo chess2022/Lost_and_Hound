@@ -1,3 +1,7 @@
+
+from django.db import models
+from django.urls import reverse
+from django.contrib.auth.models import User
 from typing import TYPE_CHECKING
 from django.db import models
 from django.urls import reverse
@@ -33,7 +37,7 @@ class Pet(models.Model):
     (FOUND, 'Found')
   ]
   status = models.CharField(max_length=2, choices=STATUS_OPTIONS, default=LOST)
-
+  
   def __str__(self):
     return self.name
 

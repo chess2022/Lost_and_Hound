@@ -1,3 +1,5 @@
 .DS_STORE
 .env
 lostandhound/.env
+*/__pycache__/*
+/__pycache__/
