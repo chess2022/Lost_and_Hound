@@ -47,6 +47,7 @@ class Pet(models.Model):
   def get_absolute_url(self):
       return reverse("detail", kwargs={'pet_id':self.id})
   
+# comment
 
   
   

@@ -56,21 +56,25 @@ S3_BASE_URL='https://s3-us-west-2.amazonaws.com/'
 BUCKET='lost-and-hound'
 
 
-def pets_index(request):
-  pets = Pet.objects.filter(user=request.user)
-  return render(request, 'pets/index.html', {'pets':pets})
+# def pets_index(request):
+#   pets = Pet.objects.filter(user=request.user)
+#   return render(request, 'pets/index.html', {'pets':pets})
 
-def lostandhound_index(request):
-  return render(request, 'pet/index.html')
+# def pets_detail(request, pet_id):
+#   pet = Pet.objects.get(id=pet_id)
+#   pet_form = PetForm()
+#   return render(request, 'pets/detail.html',{
+#     'pet': pet, 'pet_form': pet_form
+#   })
 
-def pets_create(request):
-  pass
+# def pets_create(request):
+#   pass
 
-def pets_delete(request):
-  pass
+# def pets_delete(request):
+#   pass
 
-def pets_update(request):
-  pass
+# def pets_update(request):
+#   pass
 
 def pets_detail(request, pet_id):
   pet = Pet.objects.get(id=pet_id)
