@@ -10,35 +10,35 @@ from django.urls import reverse
 
 
 class Pet(models.Model):
-  DOG = 'DG'
-  CAT = 'CT'
-  OTHER = 'OT'
+  DOG = 'DOG'
+  CAT = 'CAT'
+  OTHER = 'PET'
   PET_TYPE = [
     (DOG, 'Dog'),
     (CAT, 'Cat'),
     (OTHER, 'Other')
   ]
-  type = models.CharField(max_length=2, choices=PET_TYPE, default=DOG)
+  type = models.CharField(max_length=3, choices=PET_TYPE, default=DOG)
   name = models.CharField(max_length=100, blank=False)
   breed = models.CharField(max_length=100, blank=False)
   city = models.CharField(max_length=100, blank=False)
   state = models.CharField(max_length=100, blank=False)
   breed = models.CharField(max_length=100, blank=False)
-  MALE = 'ML'
-  FEMALE = 'FM'
+  MALE = 'Male'
+  FEMALE = 'Female'
   PET_SEX = [
     (MALE, 'Male'),
     (FEMALE, 'Female')
   ]
-  sex = models.CharField(max_length=2, choices=PET_SEX, default=MALE)
+  sex = models.CharField(max_length=6, choices=PET_SEX, default=MALE)
   comments = models.TextField(blank=True)
-  LOST = 'LT'
-  FOUND = 'FD'
+  LOST = 'LOST'
+  FOUND = 'FOUND'
   STATUS_OPTIONS = [
     (LOST, 'Lost'),
     (FOUND, 'Found')
   ]
-  status = models.CharField(max_length=2, choices=STATUS_OPTIONS, default=LOST)
+  status = models.CharField(max_length=5, choices=STATUS_OPTIONS, default=LOST)
   
   def __str__(self):
     return self.name
@@ -47,11 +47,8 @@ class Pet(models.Model):
       return reverse("detail", kwargs={'pet_id':self.id})
   
 class Photo(models.Model):
-  pet = models.ForeignKey(
-    Pet, on_delete=models.CASCADE, null=True)
-  image = models.ImageField(null=False, blank=False)
-  description = models.TextField(max_length=500, null=False, blank=False)
-
+  pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
+  url = models.CharField(max_length=200, default='https://sugarplumnannies.com/wp-content/uploads/2015/11/dog-placeholder.jpg')
   def __str__(self):
      return f"Lost pet photo for pet_id: {self.pet_id} @{self.url}"
   
