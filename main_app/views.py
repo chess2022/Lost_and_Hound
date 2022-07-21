@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import Pet 
-from .forms import PetForm
+# from .forms import PetForm
 
 # Create your views here.
 
@@ -18,7 +18,7 @@ def pets_index(request):
 
 def pets_detail(request, pet_id):
   pet = Pet.objects.get(id=pet_id)
-  pet_form = PetForm()
+  # pet_form = PetForm()
   return render(request, 'pets/detail.html',{
-    'pet': pet, 'pet_form': pet_form
+    # 'pet': pet, 'pet_form': pet_form
   })
