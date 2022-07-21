@@ -46,4 +46,3 @@ class Pet(models.Model):
   
 
   
-  
