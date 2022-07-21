@@ -4,4 +4,4 @@ from .models import Pet
 class PetForm(ModelForm):
   class Meta:
     model = Pet
-    fields = ['TYPE', 'SEX']
+    fields = '__all__'

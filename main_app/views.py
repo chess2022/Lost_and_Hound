@@ -38,8 +38,6 @@ def pets_delete(request):
 def pets_update(request):
   pass
 
-def home(request):
-    return HttpResponse('<h1>Hello World</h1>')
 
 class GeneratePdf(LoginRequiredMixin, View):
      def get(self, request, *args, **kwargs):
