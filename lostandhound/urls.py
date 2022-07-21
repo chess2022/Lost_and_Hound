@@ -21,5 +21,7 @@ from main_app.views import GeneratePdf
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main_app.urls')),
-    path('pdf/', GeneratePdf.as_view())
+    path('pdf/', GeneratePdf.as_view()),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
+
