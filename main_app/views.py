@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.views.generic import View
+from django.views.generic import View, ListView, DetailView
 from main_app.forms import signUpForm
 from django.contrib.auth import login, authenticate
 from .process import create_pdf 
@@ -8,27 +8,21 @@ from django.template.loader import render_to_string
 from main_app import models
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic import ListView, DetailView
 from .models import Pet, Photo
 from .forms import PetForm
-from django.http import HttpResponse
-from django.views.generic import View
-from .process import create_pdf 
-from django.template.loader import render_to_string
-from main_app import models
-from django.contrib.auth.mixins import LoginRequiredMixin
 import uuid
 import boto3
 
+
 S3_BASE_URL='https://s3-us-west-2.amazonaws.com/'
-BUCKET='lost-and-hound'
+BUCKET='lostandhound'
+
+
 # Create your views here.
 
 # ------------------------- KL-todo apply auth routes ------------------------ #
 from django.contrib.auth.decorators import login_required
 # Create your views here.
-
-
 
 
 def home(request):
@@ -37,8 +31,6 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
-def lostandhound_index(request):
-  return render(request, 'pet/index.html')
 
 def signup(request):
     error_message = ''
@@ -50,36 +42,40 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('index')
+            return redirect('accounts/login')
         else:
             error_message = 'Invalid sign-up. Please try again'
     form = signUpForm()
     context = {'form': form, 'error_message': error_message}
     return render(request, 'registration/signup.html', context)
 
-# Create your views here.
-
-
+@login_required
 def pets_index(request):
-  pets = Pet.objects.filter(user=request.user)
+  pets = Pet.objects.order_by('name')
   return render(request, 'pets/index.html', {'pets':pets})
-
-def lostandhound_index(request):
-  return render(request, 'pet/index.html')
 
 def pets_detail(request, pet_id):
   pet = Pet.objects.get(id=pet_id)
   pet_form = PetForm()
   return render(request, 'pets/detail.html', {'pet': pet, 'pet_form': pet_form})
 
-class PetCreate(LoginRequiredMixin, CreateView):
-  model = Pet
-  fields = '__all__'
-  def form_valid(self, form):
-    form.instance.user = self.request.user
-    return super().form_valid(form)
+def pets_create_photo(request, pet_id):
+  pet = Pet.objects.get(id=pet_id)
+  pet_form = PetForm()
+  return render(request, 'main_app/pet_form_photo.html', {'pet': pet, 'pet_form': pet_form})
 
-class PetUpdate(UpdateView):
+class PetList(LoginRequiredMixin, ListView):
+  model = Pet
+
+class PetCreate(LoginRequiredMixin, CreateView):
+    model = Pet
+    fields = '__all__'
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    success_url = '/pets/'
+
+class PetUpdate(LoginRequiredMixin, UpdateView):
   model = Pet
   fields = '__all__'
 
@@ -87,10 +83,6 @@ class PetDelete(DeleteView):
   model = Pet
   success_url = '/pets/'
   
-# Create your views here.
-
-def home(request):
-    return HttpResponse('<h1>Hello World</h1>')
 
 class GeneratePdf(LoginRequiredMixin, View):
      def get(self, request, *args, **kwargs):
@@ -103,18 +95,18 @@ class GeneratePdf(LoginRequiredMixin, View):
          # rendering the template
         return HttpResponse(pdf, content_type='application/pdf')
 
+@login_required
 def add_photo(request, pet_id):
-    photo_file = request.FILES.get('photo-file', None)
-    if photo_file:
-        s3 = boto3.Session(profile_name=BUCKET).client('s3')
-        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-        try:
-            s3.upload_fileobj(photo_file, BUCKET, key)
-            url = f"{S3_BASE_URL}{BUCKET}/{key}"
-            photo = Photo(url=url, pet_id=pet_id)
-            photo.save()
-        except:
-            print('An error occurred uploading file to S3')
-    return redirect('detail', pet_id=pet_id)
-
+  photo_file = request.FILES.get('photo-file', None)
+  if photo_file:
+    s3 = boto3.client('s3')
+    key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+    try:
+        s3.upload_fileobj(photo_file, BUCKET, key)
+        url = f"{S3_BASE_URL}{BUCKET}/{key}"
+        photo = Photo(url=url, pet_id=pet_id)
+        photo.save()
+    except:
+      print(("Photo upload unsuccessful"))
+  return redirect('detail', pet_id=pet_id)
 
