@@ -47,11 +47,8 @@ class Pet(models.Model):
       return reverse("detail", kwargs={'pet_id':self.id})
   
 class Photo(models.Model):
-  pet = models.ForeignKey(
-    Pet, on_delete=models.CASCADE, null=True)
-  image = models.ImageField(null=False, blank=False)
-  description = models.TextField(max_length=500, null=False, blank=False)
-
+  pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
+  url = models.CharField(max_length=200)
   def __str__(self):
      return f"Lost pet photo for pet_id: {self.pet_id} @{self.url}"
   

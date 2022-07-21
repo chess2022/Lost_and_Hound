@@ -1,0 +1,26 @@
+{% extends 'base2.html' %}
+
+{% block content %}
+  {% if object %}
+    <h1>Edit <span class="">{{object.name}}</span></h1>
+  {% else %}
+    <h1>Add Pet</h1>
+  {% endif %}
+  <form action="" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    {% comment %} <h5>Pet Photo</h5>
+    {% for photo in photo_set.all %}
+      <img class="" src="{{photo.url}}">
+    {% empty %}
+        <div class="">No Photos Uploaded</div>
+    {% endfor %} {% endcomment %}
+    <table>
+      {{ form.as_table }}
+      <h3>Image</h3>
+      {{ photo.as_p }}
+      <input type="file" name="data">
+
+    </table>
+    <input type="submit" value="Submit!" class="btn">
+  </form>
+{% endblock %}
