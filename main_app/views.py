@@ -1,8 +1,12 @@
-
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponse
+from django.views.generic import View
 from main_app.forms import signUpForm
+from django.contrib.auth import login, authenticate
+from .process import create_pdf 
+from django.template.loader import render_to_string
+from main_app import models
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import Pet 
@@ -20,6 +24,7 @@ import boto3
 
 # ------------------------- KL-todo apply auth routes ------------------------ #
 from django.contrib.auth.decorators import login_required
+# Create your views here.
 
 
 
@@ -61,13 +66,13 @@ def pets_index(request):
   pets = Pet.objects.filter(user=request.user)
   return render(request, 'pets/index.html', {'pets':pets})
 
+def lostandhound_index(request):
+  return render(request, 'pet/index.html')
+
 def pets_detail(request, pet_id):
   pet = Pet.objects.get(id=pet_id)
-  pet_form = PetForm()
-  return render(request, 'pets/detail.html',{
-    'pet': pet, 'pet_form': pet_form
-  })
-
+  return render(request, 'pets/detail.html', {'pet': pet})
+  
 class PetCreate(LoginRequiredMixin, CreateView):
   model = Pet
   fields = '__all__'

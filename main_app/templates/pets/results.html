@@ -1,8 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'base3.html' %}
 {% block content %}
 
-<h1></h1>
+<div class="results--container">
 
-
+    <div class="results--header"><h1 class="results--title">{{ pet.status }} {{ pet.type }}</h1></div>
+    <div class="results--detail">
+        <div><img src="{{ photo.url }}" class="results--photo"></div>
+        <div>
+            <h2>{{ pet.name }}</h2>
+            <h4>{{ pet.sex }} {{ pet.breed }}</h4>
+            <p>{{ pet.details }}</p>
+        </div>
+    </div>
+    <div class="results--contact">
+        <p>CALL OR TEXT WITH ANY INFORMATION</p>
+        <h1>{{ pet.phone }}</h1>
+    </div>
+</div>
 
 {% endblock %}

@@ -1,0 +1,40 @@
+/* COLORS */
+element {
+    --text-color: #442214;
+    --teal-accent: #65b7b1;
+    --tan-accent: #E5D0C1;   
+}
+
+html {
+    width: 90%;
+    margin: auto;
+}
+
+body {
+    position: relative;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.main {
+    background-image: url("background1.png");
+    background-repeat: no-repeat;
+    background-size: 75%;
+    background-position: right top;
+}
+
+.secondary {
+    background-image: url("background2.png");
+    background-repeat: no-repeat;
+    background-size: 75%;
+    background-position: right top;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
+    background-color: #442214;
+    color: white;
+}

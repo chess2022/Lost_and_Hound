@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-  <title>Lost and Hound</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lost and Hound</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 </head>
-  <body class="main">
+<body class="secondary">
   <header>
     <nav>
         <ul class="right">
@@ -22,11 +22,11 @@
           </ul>
     </nav>
   </header>
-  <main >
-    {% block content %}
-    {% endblock %}
-  </main>
+        {% block content %}
 
-
+        {% endblock %}
+  <footer>
+    <div>Footer</div>
+  </footer>
 </body>
 </html>
