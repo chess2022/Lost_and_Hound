@@ -75,10 +75,14 @@ class PetCreate(LoginRequiredMixin, CreateView):
     form.instance.user = self.request.user
     return super().form_valid(form)
 
-class PetUpdated(UpdateView):
+class PetUpdate(UpdateView):
   model = Pet
   fields = '__all__'
 
+class PetDelete(DeleteView):
+  model = Pet
+  success_url = '/pets/'
+  
 # Create your views here.
 
 def home(request):
