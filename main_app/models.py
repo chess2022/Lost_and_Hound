@@ -47,8 +47,7 @@ class Pet(models.Model):
 class Photo(models.Model):
     url = models.CharField(max_length=200)
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE)
-    description = models.TextField(max_length=500, null=False, blank=False)
 
     def __str__(self):
-        return f"Photo unsuccessful: {self.pet_id} @{self.url}"
+        return f"Photo upload unsuccessful: {self.pet_id} @{self.url}"
   

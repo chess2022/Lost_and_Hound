@@ -20,6 +20,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 import uuid
 import boto3
 
+S3_BASE_URL='https://s3-us-west-2.amazonaws.com/'
+BUCKET='lost-and-hound'
 # Create your views here.
 
 # ------------------------- KL-todo apply auth routes ------------------------ #
@@ -56,9 +58,6 @@ def signup(request):
     return render(request, 'registration/signup.html', context)
 
 # Create your views here.
-
-S3_BASE_URL='https://s3-us-west-2.amazonaws.com/'
-BUCKET='lost-and-hound'
 
 
 def pets_index(request):
@@ -105,17 +104,17 @@ class GeneratePdf(LoginRequiredMixin, View):
         return HttpResponse(pdf, content_type='application/pdf')
 
 def add_photo(request, pet_id):
-  photo_file = request.FILES.get('photo-file', None)
-  if photo_file:
-    s3 = boto3.client('s3')
-    key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
-    print(key)
-    try:
-        s3.upload_fileobj(photo_file, BUCKET, key)
-        url = f"{S3_BASE_URL}{BUCKET}/{key}"
-        photo = Photo(url=url, pet_id=pet_id)
-        photo.save()
-    except:
-      print(("Photo upload to S3 unsuccessful"))
-  return redirect('detail', pet_id=pet_id)
+    photo_file = request.FILES.get('photo-file', None)
+    if photo_file:
+        s3 = boto3.Session(profile_name=BUCKET).client('s3')
+        key = uuid.uuid4().hex[:6] + photo_file.name[photo_file.name.rfind('.'):]
+        try:
+            s3.upload_fileobj(photo_file, BUCKET, key)
+            url = f"{S3_BASE_URL}{BUCKET}/{key}"
+            photo = Photo(url=url, pet_id=pet_id)
+            photo.save()
+        except:
+            print('An error occurred uploading file to S3')
+    return redirect('detail', pet_id=pet_id)
+
 
