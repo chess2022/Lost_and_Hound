@@ -7,4 +7,7 @@ urlpatterns = [
   path('index/', views.lostandhound_index, name='index'), #INDEX ROUTE - show all lost pets
   path('accounts/signup/', views.signup, name='signup'), #SIGNUP ROUTE 
   path('pets/<int:pet_id>/', views.pets_detail, name='detail'),
+  path('pets/create/', views.PetCreate.as_view(), name='pets_create'),
+  path('pets/<int:pk>/update', views.PetUpdate.as_view(), name='pets_update'),
+  path('pets/<int:pk>/delete/', views.PetDelete.as_view(), name='pets_delete'),
 ]
