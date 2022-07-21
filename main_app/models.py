@@ -10,9 +10,6 @@ from django.urls import reverse
 
 
 class Pet(models.Model):
-  class Meta:
-    verbose_name_plural = 'pets'
-    verbose_name = 'pet'
   DOG = 'DG'
   CAT = 'CT'
   OTHER = 'OT'
@@ -49,7 +46,12 @@ class Pet(models.Model):
   def get_absolute_url(self):
       return reverse("detail", kwargs={'pet_id':self.id})
   
-# comment
+class Photo(models.Model):
+  pet = models.ForeignKey(
+    Pet, on_delete=models.CASCADE, null=True)
+  image = models.ImageField(null=False, blank=False)
+  description = models.TextField(max_length=500, null=False, blank=False)
 
-  
+  def __str__(self):
+     return f"Lost pet photo for pet_id: {self.pet_id} @{self.url}"
   
