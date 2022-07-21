@@ -1,8 +1,12 @@
-
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponse
+from django.views.generic import View
 from main_app.forms import signUpForm
+from django.contrib.auth import login, authenticate
+from .process import create_pdf 
+from django.template.loader import render_to_string
+from main_app import models
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from .models import Pet 
@@ -13,10 +17,8 @@ from .process import create_pdf
 from django.template.loader import render_to_string
 from main_app import models
 from django.contrib.auth.mixins import LoginRequiredMixin
-# Create your views here.
-
-# ------------------------- KL-todo apply auth routes ------------------------ #
 from django.contrib.auth.decorators import login_required
+# Create your views here.
 
 
 
@@ -58,18 +60,24 @@ def pets_index(request):
   pets = Pet.objects.filter(user=request.user)
   return render(request, 'pets/index.html', {'pets':pets})
 
+def lostandhound_index(request):
+  return render(request, 'pet/index.html')
+
+def pets_create(request):
+  pass
+
+def pets_delete(request):
+  pass
+
+def pets_update(request):
+  pass
+
 def pets_detail(request, pet_id):
   pet = Pet.objects.get(id=pet_id)
   pet_form = PetForm()
   return render(request, 'pets/detail.html',{
     'pet': pet, 'pet_form': pet_form
   })
-
-
-# Create your views here.
-
-def home(request):
-    return HttpResponse('<h1>Hello World</h1>')
 
 class GeneratePdf(LoginRequiredMixin, View):
      def get(self, request, *args, **kwargs):
@@ -81,4 +89,19 @@ class GeneratePdf(LoginRequiredMixin, View):
          
          # rendering the template
         return HttpResponse(pdf, content_type='application/pdf')
+
+
+# -------------------------------- TEMP SETUP -------------------------------- #
+class PetCreate(CreateView):
+  model= Pet
+  
+# -------------------------------- TEMP SETUP -------------------------------- #
+class PetUpdate (UpdateView):
+  model=Pet
+  
+# -------------------------------- TEMP SETUP -------------------------------- #
+class PetDelete (DeleteView):
+  model=Pet
+
+
 
