@@ -155,14 +155,16 @@ def generate_pdf_through_template(request):
     write_to_file.close()   
     return HttpResponse(result.err)
 
-def render_pdf(request):
+def render_pdf(request, pet_id):
+    pet = Pet.objects.get(id=pet_id)
+    pet_form = PetForm()
     path = "pets/results.html"
-    # user = request.user
-    context = {"pets" : Pet.objects.all()[:100]}
-    html = render_to_string('pets/results.html',context)
+    context = {'pet': pet[:100], 'pet_form': pet_form}
+    html = render_to_string(request, 'pets/results.html',context)
     io_bytes = BytesIO()    
     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
     if not pdf.err:
         return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
     else:
         return HttpResponse("Error while rendering PDF", status=400)
+

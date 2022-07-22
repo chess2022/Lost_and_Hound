@@ -1,13 +1,13 @@
 {% extends 'base2.html' %}
 {% block content %}
 
-<h1>Lost Pet</h1>
+<h1>ALMOST THERE</h1>
 
-<div>
-      <div>   
+<div class="card-content">
+    <div>   
         <h5>Please Upload a Photo</h5>
         {% for photo in pet.photo_set.all %}
-            <img class="" src="{{photo.url}}">
+            <img class="pet_photo" src="{{photo.url}}" width="200px">
         {% empty %}
             <div class="">No Photos Uploaded</div>
         {% endfor %}
@@ -18,28 +18,20 @@
                 <input type="submit" class="btn" value="Upload Photo">
             </form>
     </div>
-  <div>
-    <h1>{{pet.name}}</h1>
-        <div>
+    <div>
         <span class="">
-        <h2>{{ pet.status }} {{ pet.type }}</h2>
-        <p><h5>Name: </h5>{{ pet.name }}</p>
-        <p><h5>City: </h5>{{ pet.city }}</p>
-        <p><h5>State: </h5>{{ pet.state }}</p>
-        <p><h5>Breed: </h5>{{ pet.breed }}</p>
-        <p><h5>Comments: </h5>{{ pet.comments }}</p>
+        <h3>I have {{ pet.status }} a {{ pet.type }}.</h3>
+        <h4>Name: {{ pet.name }}</h4>
+        <h4>City: {{ pet.city }}</h4>
+        <h4>State: {{ pet.state }}</h4>
+        <h4>Breed: {{ pet.breed }}</h4>
+        <h4>Comments: {{ pet.comments }}</h4>
         <div class="">
             <a href="{% url 'pets_update' pet.id %}">Edit</a>
             <a href="{% url 'pets_delete' pet.id %}">Delete</a>    
         </div>
     </div>
-    <div>
-      <form action="" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Contact">
-      </form>
-    </div>
-  </div>
+    <a href="/render-pdf" target="_blank">Get Flyer</a>
 </div>
 
 
