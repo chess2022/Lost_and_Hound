@@ -1,4 +1,4 @@
-# import os
+import os
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import View, ListView, DetailView
@@ -11,6 +11,9 @@ from .models import Pet, Photo
 from .forms import PetForm
 from io import BytesIO
 from xhtml2pdf import pisa
+from django.contrib.staticfiles import finders
+from django.conf import settings
+from django.contrib.auth.models import User
 import uuid
 import boto3
 
@@ -104,6 +107,39 @@ def add_photo(request, pet_id):
 ##      pdf generation views       ##
 #####################################
 
+def link_callback(uri, rel):
+        """
+        Convert HTML URIs to absolute system paths so xhtml2pdf can access those
+        resources
+        """
+        result = finders.find(uri)
+        if result:
+            if not isinstance(result, (list, tuple)):
+                result = [result]
+            result = list(os.path.realpath(path) for path in result)
+            path=result[0]
+        else:
+            sUrl = settings.STATIC_URL        # Typically /static/
+            sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
+            mUrl = settings.MEDIA_URL         # Typically /media/
+            mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
+
+            if uri.startswith(mUrl):
+                path = os.path.join(mRoot, uri.replace(mUrl, ""))
+            elif uri.startswith(sUrl):
+                path = os.path.join(sRoot, uri.replace(sUrl, ""))
+            else:
+                return uri
+
+        # make sure that file exists
+        if not os.path.isfile(path):
+            raise Exception(
+                'media URI must start with %s or %s' % (sUrl, mUrl)
+            )
+        return path
+
+
+
 def generate_pdf(request):
     html = '<html><body><p>To PDF or not to PDF</p></body></html>'
     write_to_file = open('media/test.pdf', "w+b")
@@ -121,6 +157,7 @@ def generate_pdf_through_template(request):
 
 def render_pdf(request):
     path = "pets/results.html"
+    # user = request.user
     context = {"pets" : Pet.objects.all()[:100]}
     html = render_to_string('pets/results.html',context)
     io_bytes = BytesIO()    

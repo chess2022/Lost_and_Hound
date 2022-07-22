@@ -1,5 +1,7 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
   path('', views.home, name='home'), #HOME ROUTE
@@ -15,4 +17,4 @@ urlpatterns = [
   path('generate-pdf', views.generate_pdf, name='generate_pdf'),
   path('generate-pdf-through-template', views.generate_pdf_through_template, name='generate_pdf_through_template'),
   path('render-pdf', views.render_pdf, name="render_pdf"),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

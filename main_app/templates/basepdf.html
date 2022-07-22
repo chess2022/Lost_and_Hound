@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lost and Hound</title>
+    <style>
+      @page {
+        size: letter portrait;
+        p { margin: 0; -pdf-keep-with-next: true; }
+        p.separator { -pdf-keep-with-next: false; }
+
+        @frame header_frame {
+          width: 600pt;
+          height: 200pt;
+          background-color: red;
+          color: white;
+          font-size: 40pt;
+          padding: 10pt;
+          -pdf-frame-border: 1;
+        }
+
+        @frame col1_frame {
+          width: 300pt;
+          -pdf-frame-border: 1;
+        }
+
+        @frame col2_frame {
+          width: 300pt;
+          -pdf-frame-border: 1;
+        }
+
+        @frame footer_frame {
+          width: 600pt;
+          height: 200pt;
+          background-color: red;
+          color: white;
+          font-size: 40pt;
+          padding: 10pt;
+          -pdf-frame-border: 1;
+        }
+      }
+
+    </style>  
+</head>
+<body>
+        {% block content %}
+
+        {% endblock %}
+  <footer>
+    <div>Footer</div>
+  </footer>
+</body>
+</html>
