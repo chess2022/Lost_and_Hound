@@ -7,7 +7,7 @@
     <div>   
         <h5>Please Upload a Photo</h5>
         {% for photo in pet.photo_set.all %}
-            <img class="" src="{{photo.url}}">
+            <img class="pet_photo" src="{{photo.url}}" width="200px">
         {% empty %}
             <div class="">No Photos Uploaded</div>
         {% endfor %}
@@ -20,17 +20,18 @@
     </div>
     <div>
         <span class="">
-        <h5>I have {{ pet.status }} a {{ pet.type }}.</h5>
-        <p><h5>Name: </h5>{{ pet.name }}</p>
-        <p><h5>Name: </h5>{{ pet.city }}</p>
-        <p><h5>Name: </h5>{{ pet.state }}</p>
-        <p><h5>Name: </h5>{{ pet.breed }}</p>
-        <p><h5>Name: </h5>{{ pet.comments }}</p>
+        <h3>I have {{ pet.status }} a {{ pet.type }}.</h3>
+        <h4>Name: {{ pet.name }}</h4>
+        <h4>City: {{ pet.city }}</h4>
+        <h4>State: {{ pet.state }}</h4>
+        <h4>Breed: {{ pet.breed }}</h4>
+        <h4>Comments: {{ pet.comments }}</h4>
         <div class="">
             <a href="{% url 'pets_update' pet.id %}">Edit</a>
             <a href="{% url 'pets_delete' pet.id %}">Delete</a>    
         </div>
     </div>
+    <a href="/render-pdf" target="_blank">Get Flyer</a>
 </div>
 
 

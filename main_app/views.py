@@ -1,15 +1,19 @@
+import os
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import View, ListView, DetailView
 from main_app.forms import signUpForm
 from django.contrib.auth import login, authenticate
-from .process import create_pdf 
 from django.template.loader import render_to_string
-from main_app import models
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Pet, Photo
 from .forms import PetForm
+from io import BytesIO
+from xhtml2pdf import pisa
+from django.contrib.staticfiles import finders
+from django.conf import settings
+from django.contrib.auth.models import User
 import uuid
 import boto3
 
@@ -82,18 +86,6 @@ class PetUpdate(LoginRequiredMixin, UpdateView):
 class PetDelete(DeleteView):
   model = Pet
   success_url = '/pets/'
-  
-
-class GeneratePdf(LoginRequiredMixin, View):
-     def get(self, request, *args, **kwargs):
-        data = models.Pet.objects.all().order_by('first_name')
-        open('templates/temp.html', "w").write(render_to_string('result.html', {'data': data}))
-
-        # Converting the HTML template into a PDF file
-        pdf = create_pdf('temp.html')
-         
-         # rendering the template
-        return HttpResponse(pdf, content_type='application/pdf')
 
 @login_required
 def add_photo(request, pet_id):
@@ -110,3 +102,67 @@ def add_photo(request, pet_id):
       print(("Photo upload unsuccessful"))
   return redirect('detail', pet_id=pet_id)
 
+
+#####################################
+##      pdf generation views       ##
+#####################################
+
+def link_callback(uri, rel):
+        """
+        Convert HTML URIs to absolute system paths so xhtml2pdf can access those
+        resources
+        """
+        result = finders.find(uri)
+        if result:
+            if not isinstance(result, (list, tuple)):
+                result = [result]
+            result = list(os.path.realpath(path) for path in result)
+            path=result[0]
+        else:
+            sUrl = settings.STATIC_URL        # Typically /static/
+            sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
+            mUrl = settings.MEDIA_URL         # Typically /media/
+            mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
+
+            if uri.startswith(mUrl):
+                path = os.path.join(mRoot, uri.replace(mUrl, ""))
+            elif uri.startswith(sUrl):
+                path = os.path.join(sRoot, uri.replace(sUrl, ""))
+            else:
+                return uri
+
+        # make sure that file exists
+        if not os.path.isfile(path):
+            raise Exception(
+                'media URI must start with %s or %s' % (sUrl, mUrl)
+            )
+        return path
+
+
+
+def generate_pdf(request):
+    html = '<html><body><p>To PDF or not to PDF</p></body></html>'
+    write_to_file = open('media/test.pdf', "w+b")
+    result = pisa.CreatePDF(html,dest=write_to_file)
+    write_to_file.close()
+    return HttpResponse(result.err)
+
+def generate_pdf_through_template(request):
+    context={}
+    html = render_to_string('pdf/results',context)   
+    write_to_file = open('media/test_1.pdf', "w+b")   
+    result = pisa.CreatePDF(html,dest=write_to_file)  
+    write_to_file.close()   
+    return HttpResponse(result.err)
+
+def render_pdf(request):
+    path = "pets/results.html"
+    # user = request.user
+    context = {"pets" : Pet.objects.all()[:100]}
+    html = render_to_string('pets/results.html',context)
+    io_bytes = BytesIO()    
+    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
+    if not pdf.err:
+        return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
+    else:
+        return HttpResponse("Error while rendering PDF", status=400)
