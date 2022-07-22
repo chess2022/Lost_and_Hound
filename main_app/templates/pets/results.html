@@ -2,20 +2,26 @@
 {% block content %}
 
 <div class="results--container">
-
+    {% for pet in pets %}
     <div class="results--header"><h1 class="results--title">{{ pet.status }} {{ pet.type }}</h1></div>
     <div class="results--detail">
-        <div><img src="{{ photo.url }}" class="results--photo"></div>
+        <div>
+            {% for photo in pet.photo_set.all %}
+            <img src="{{ photo.url }}" class="results--photo"></div>
+            {% empty %}
+            <div class="results--placeholder">No Photo Available</div>
+            {% endfor %}
         <div>
             <h2>{{ pet.name }}</h2>
             <h4>{{ pet.sex }} {{ pet.breed }}</h4>
-            <p>{{ pet.details }}</p>
+            <p>{{ pet.comments }}</p>
         </div>
     </div>
     <div class="results--contact">
-        <p>CALL OR TEXT WITH ANY INFORMATION</p>
+        <h3>CALL OR TEXT WITH ANY INFORMATION</h3>
         <h1>{{ user.phone }}</h1>
     </div>
+    {% endfor %}
 </div>
 
 {% endblock %}

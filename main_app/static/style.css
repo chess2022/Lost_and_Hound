@@ -38,3 +38,10 @@ footer {
     background-color: #442214;
     color: white;
 }
+
+.results--header {
+    width: 100%;
+    background-color: red;
+    color: white;
+    font-size: 80%vw;
+}

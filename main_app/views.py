@@ -1,15 +1,16 @@
+# import os
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import View, ListView, DetailView
 from main_app.forms import signUpForm
 from django.contrib.auth import login, authenticate
-from .process import create_pdf 
 from django.template.loader import render_to_string
-from main_app import models
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Pet, Photo
 from .forms import PetForm
+from io import BytesIO
+from xhtml2pdf import pisa
 import uuid
 import boto3
 
@@ -82,18 +83,6 @@ class PetUpdate(LoginRequiredMixin, UpdateView):
 class PetDelete(DeleteView):
   model = Pet
   success_url = '/pets/'
-  
-
-class GeneratePdf(LoginRequiredMixin, View):
-     def get(self, request, *args, **kwargs):
-        data = models.Pet.objects.all().order_by('first_name')
-        open('templates/temp.html', "w").write(render_to_string('result.html', {'data': data}))
-
-        # Converting the HTML template into a PDF file
-        pdf = create_pdf('temp.html')
-         
-         # rendering the template
-        return HttpResponse(pdf, content_type='application/pdf')
 
 @login_required
 def add_photo(request, pet_id):
@@ -110,3 +99,33 @@ def add_photo(request, pet_id):
       print(("Photo upload unsuccessful"))
   return redirect('detail', pet_id=pet_id)
 
+
+#####################################
+##      pdf generation views       ##
+#####################################
+
+def generate_pdf(request):
+    html = '<html><body><p>To PDF or not to PDF</p></body></html>'
+    write_to_file = open('media/test.pdf', "w+b")
+    result = pisa.CreatePDF(html,dest=write_to_file)
+    write_to_file.close()
+    return HttpResponse(result.err)
+
+def generate_pdf_through_template(request):
+    context={}
+    html = render_to_string('pdf/results',context)   
+    write_to_file = open('media/test_1.pdf', "w+b")   
+    result = pisa.CreatePDF(html,dest=write_to_file)  
+    write_to_file.close()   
+    return HttpResponse(result.err)
+
+def render_pdf(request):
+    path = "pets/results.html"
+    context = {"pets" : Pet.objects.all()[:100]}
+    html = render_to_string('pets/results.html',context)
+    io_bytes = BytesIO()    
+    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
+    if not pdf.err:
+        return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
+    else:
+        return HttpResponse("Error while rendering PDF", status=400)
