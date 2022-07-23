@@ -13,16 +13,15 @@ from .models import Pet, Photo
 from .forms import PetForm
 from io import BytesIO
 from xhtml2pdf import pisa
-from django.contrib.staticfiles import finders
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.urls import reverse
+from django.shortcuts import get_object_or_404
+from django.template.loader import get_template
+# from django.urls import reverse
 import uuid
 import boto3
 
 
 S3_BASE_URL='https://s3-us-west-2.amazonaws.com/'
-BUCKET='lostandhound'
+BUCKET='lost-and-found'
 
 
 # Create your views here.
@@ -81,7 +80,19 @@ class PetCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-    success_url = '/pets/'
+    pk = Pet.objects.latest('id').id+1
+    success_url = f'/pets/{pk}/pet_form_photo/'
+
+# class PetCreatePhoto(LoginRequiredMixin, DetailView):
+#     model = Pet
+#     template_name = 'pet_form_photo.html'
+#     def get_context_data(self, *args, **kwargs):
+#       context = super(PetCreatePhoto, self).get_context_data(*args, **kwargs)
+#       context['pet'] = Pet.objects.filter(pk=self.kwargs.get('pk'))
+#       if context: return context
+#       return render(self.template_name)
+#     success_url = '/pets/{pk}/'
+
 
 class PetUpdate(LoginRequiredMixin, UpdateView):
   model = Pet
@@ -160,34 +171,45 @@ def generate_pdf_through_template(request):
     write_to_file.close()   
     return HttpResponse(result.err)
 
+# def render_pdf(request, pet_id):
+#     path = "pets/results.html"
+#     context = {"pet" : Pet.objects.get(id=pet_id)[:100]}
+#     html = render_to_string('pets/results.html',context)
+#     io_bytes = BytesIO()    
+#     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
+#     if not pdf.err:
+#         reverse('render_pdf', pet_id)
+#         return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
+#     else:
+#         return HttpResponse("Error while rendering PDF", status=400)
+
+# def render_pdf(request, *args, **kwargs):
+#     pk = kwargs.get('pk')
+#     pet = get_object_or_404(Pet, pk=pk)
+#     template_path = 'pets/results.html'
+#     # context = {'pet' : Pet.objects.get(id=pk)}
+#     context = {'pet' : pet}
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = 'filename="report.pdf"'
+#     template = get_template(template_path)
+#     html = template.render(context)
+#     io_bytes = BytesIO()    
+#     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
+#     if not pdf.err:
+#         return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
+#     else:
+#         return HttpResponse("Error while rendering PDF", status=400)
+
+@login_required
 def render_pdf(request, pet_id):
     pet = get_object_or_404(Pet, id=pet_id)
     pet_form = PetForm()
     path = "pets/results.html"
-    context = {'pet': pet[:100], 'pet_form': pet_form}
-    html = render_to_string(request, path ,context)
+    context = {"pet" : Pet.objects.get(id=pet_id), "user": request.user.id}
+    html = render_to_string('pets/results.html',context)
     io_bytes = BytesIO()    
     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
     if not pdf.err:
         return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
     else:
         return HttpResponse("Error while rendering PDF", status=400)
-# def render_pdf(request, pk):
-#     pet = get_object_or_404(Pet, pk=pk)
-#     pet_form = PetForm()
-#     template_path = "results.html"
-#     context = {'pet': pet, 'pet_form': pet_form}
-#     # Create a Django response object, and specify content_type as pdf
-#     response = HttpResponse(content_type='application/pdf')
-#     response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-#     # find the template and render it.
-#     template = get_template(template_path)
-#     html = template.render(context)
-
-#     # create a pdf
-#     pisa_status = pisa.CreatePDF(
-#        html, dest=response)
-#     # if error then show some funny view
-#     if pisa_status.err:
-#        return HttpResponse('We had some errors <pre>' + html + '</pre>')
-#     return response
