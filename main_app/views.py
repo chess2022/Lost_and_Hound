@@ -11,9 +11,10 @@ from .models import Pet, Photo
 from .forms import PetForm
 from io import BytesIO
 from xhtml2pdf import pisa
-from django.contrib.staticfiles import finders
-from django.conf import settings
-from django.contrib.auth.models import User
+# from django.contrib.staticfiles import finders
+# from django.conf import settings
+# from django.contrib.auth.models import User
+from django.urls import reverse
 import uuid
 import boto3
 
@@ -107,36 +108,36 @@ def add_photo(request, pet_id):
 ##      pdf generation views       ##
 #####################################
 
-def link_callback(uri, rel):
-        """
-        Convert HTML URIs to absolute system paths so xhtml2pdf can access those
-        resources
-        """
-        result = finders.find(uri)
-        if result:
-            if not isinstance(result, (list, tuple)):
-                result = [result]
-            result = list(os.path.realpath(path) for path in result)
-            path=result[0]
-        else:
-            sUrl = settings.STATIC_URL        # Typically /static/
-            sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
-            mUrl = settings.MEDIA_URL         # Typically /media/
-            mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
+# def link_callback(uri, rel):
+#         """
+#         Convert HTML URIs to absolute system paths so xhtml2pdf can access those
+#         resources
+#         """
+#         result = finders.find(uri)
+#         if result:
+#             if not isinstance(result, (list, tuple)):
+#                 result = [result]
+#             result = list(os.path.realpath(path) for path in result)
+#             path=result[0]
+#         else:
+#             sUrl = settings.STATIC_URL        # Typically /static/
+#             sRoot = settings.STATIC_ROOT      # Typically /home/userX/project_static/
+#             mUrl = settings.MEDIA_URL         # Typically /media/
+#             mRoot = settings.MEDIA_ROOT       # Typically /home/userX/project_static/media/
 
-            if uri.startswith(mUrl):
-                path = os.path.join(mRoot, uri.replace(mUrl, ""))
-            elif uri.startswith(sUrl):
-                path = os.path.join(sRoot, uri.replace(sUrl, ""))
-            else:
-                return uri
+#             if uri.startswith(mUrl):
+#                 path = os.path.join(mRoot, uri.replace(mUrl, ""))
+#             elif uri.startswith(sUrl):
+#                 path = os.path.join(sRoot, uri.replace(sUrl, ""))
+#             else:
+#                 return uri
 
-        # make sure that file exists
-        if not os.path.isfile(path):
-            raise Exception(
-                'media URI must start with %s or %s' % (sUrl, mUrl)
-            )
-        return path
+#         # make sure that file exists
+#         if not os.path.isfile(path):
+#             raise Exception(
+#                 'media URI must start with %s or %s' % (sUrl, mUrl)
+#             )
+#         return path
 
 
 
@@ -156,15 +157,14 @@ def generate_pdf_through_template(request):
     return HttpResponse(result.err)
 
 def render_pdf(request, pet_id):
-    pet = Pet.objects.get(id=pet_id)
-    pet_form = PetForm()
     path = "pets/results.html"
-    context = {'pet': pet[:100], 'pet_form': pet_form}
-    html = render_to_string(request, 'pets/results.html',context)
+    reverse('render_pdf', pet_id)
+    # user = request.user
+    context = {"pet" : Pet.objects.get(id=pet_id)[:100]}
+    html = render_to_string('pets/results.html',context)
     io_bytes = BytesIO()    
     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
     if not pdf.err:
         return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
     else:
         return HttpResponse("Error while rendering PDF", status=400)
-

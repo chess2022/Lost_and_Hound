@@ -31,7 +31,7 @@
             <a href="{% url 'pets_delete' pet.id %}">Delete</a>    
         </div>
     </div>
-    <a href="/render-pdf" target="_blank">Get Flyer</a>
+    <a href="{% url 'render_pdf' pet.id %}" target="_blank">Get Flyer</a>
 </div>
 
 
