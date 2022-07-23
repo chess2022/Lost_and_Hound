@@ -1,3 +1,4 @@
+
 /* COLORS */
 element {
     --text-color: #442214;
@@ -5,7 +6,7 @@ element {
     --tan-accent: #E5D0C1;   
 }
 
-html {
+:root {
     width: 90%;
     margin: auto;
 }
@@ -14,34 +15,143 @@ body {
     position: relative;
     min-height: 100vh;
     margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+
 }
 
 .main {
     background-image: url("background1.png");
     background-repeat: no-repeat;
     background-size: 75%;
-    background-position: right top;
+    background-position: right top 35px;
 }
 
 .secondary {
     background-image: url("background2.png");
     background-repeat: no-repeat;
     background-size: 75%;
-    background-position: right top;
+    background-position: right top 35px;
 }
 
 footer {
-    position: absolute;
+    position:fixed;
     bottom: 0;
+    margin: auto;
     width: 100%;
     height: 2.5rem;
     background-color: #442214;
     color: white;
 }
 
-.results--header {
-    width: 100%;
-    background-color: red;
+/******************************/
+/*     UNIVERSAL ELEMENTS     */
+/******************************/
+
+a {
+    text-decoration: none;
+}
+
+.page-title {
+    max-width: 25%;
+    background-color: #E5D0C1;
+    color:#442214;
+    text-transform: uppercase;
+    padding-left: 30px;
+    height: 50px;
+    line-height: 50px;
+}
+
+.button-brown {
+    background-color:#442214;
+    border: none;
     color: white;
-    font-size: 80%vw;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 12px; 
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;  
+}
+
+.button-teal {
+    background-color:#65b7b1;
+    border: none;
+    color: white;
+    padding: 6px 10px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 12px; 
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;  
+}
+
+/******************************/
+/*           NAV              */
+/******************************/
+
+ul {
+    list-style-type:none;
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* aligns links vertically */
+    position: fixed;
+    top: 0;
+    /* left: 0; */
+    z-index: 9999;
+    width: 90%;
+    height: 80px;
+    margin: auto;
+    padding: 0;
+    background-color:white;
+    text-transform: uppercase;
+
+}
+
+li {
+    color:#442214;
+    font-weight: 500;
+}
+
+.nav-link {
+    padding-right: 20px;
+
+}
+
+#logo {
+    flex-grow: 1;
+    height: 80px;
+    margin-right: 20px;
+
+}
+
+.nav {
+    width: 90%;
+    margin: auto;
+    height: 80px;
+}
+
+
+/******************************/
+/*         HOME PAGE          */
+/******************************/
+
+.home {
+    margin-top: 200px;
+}
+
+.home--title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    color:#442214;
+}
+
+.home--intro {
+    width: 35%;
 }
