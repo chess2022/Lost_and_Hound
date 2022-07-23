@@ -6,20 +6,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500&display=swap" rel="stylesheet">
   <title>Lost and Hound</title>
 </head>
   <body class="main">
   <header>
-    <nav>
+    <nav id="nav">
         <ul class="right">
-            <li><a href="{% url 'about' %}">About</a></li>
-            <li><a href="{% url 'index' %}">Lost Pets</a></li>
+            <li><a href="#"><img id="logo" src="{% static 'logo.png' %}"></a></li>
+            <li class="nav-link"><a href="{% url 'about' %}">About</a></li>
+            <li class="nav-link"><a href="{% url 'index' %}">Lost Pets</a></li>
             {% if user.is_authenticated %}
-            <li><a href="{% url 'pets_create' %}">Add lost pet</a></li>
-            <li><a href="{% url 'logout' %}">Log Out</a></li>
+            <li class="nav-link"><a href="{% url 'pets_create' %}">Post</a></li>
+            <li class="nav-link"><a href="{% url 'logout' %}">Log Out</a></li>
             {% else %}  
-            <li><a href="{% url 'signup' %}">Sign Up</a></li>
-            <li><a href="{% url 'login' %}">Log In</a></li>
+            <li class="nav-link"><a href="{% url 'signup' %}">Sign Up</a></li>
+            <li class="nav-link"><a href="{% url 'login' %}">Log In</a></li>
             {% endif %}
           </ul>
     </nav>
