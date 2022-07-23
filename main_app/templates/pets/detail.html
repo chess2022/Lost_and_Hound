@@ -1,11 +1,10 @@
 {% extends 'base2.html' %}
 {% block content %}
 
-<h1>ALMOST THERE</h1>
+<h1 class="page-title">{{ pet.status }} {{ pet.type }}</h1>
 
 <div class="card-content">
     <div>   
-        <h5>Please Upload a Photo</h5>
         {% for photo in pet.photo_set.all %}
             <img class="pet_photo" src="{{photo.url}}" width="200px">
         {% empty %}
@@ -20,7 +19,6 @@
     </div>
     <div>
         <span class="">
-        <h3>I have {{ pet.status }} a {{ pet.type }}.</h3>
         <h4>Name: {{ pet.name }}</h4>
         <h4>City: {{ pet.city }}</h4>
         <h4>State: {{ pet.state }}</h4>

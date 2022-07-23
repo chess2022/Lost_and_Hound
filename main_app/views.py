@@ -11,9 +11,6 @@ from .models import Pet, Photo
 from .forms import PetForm
 from io import BytesIO
 from xhtml2pdf import pisa
-# from django.contrib.staticfiles import finders
-# from django.conf import settings
-# from django.contrib.auth.models import User
 from django.urls import reverse
 import uuid
 import boto3
@@ -78,7 +75,19 @@ class PetCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-    success_url = '/pets/'
+    pk = Pet.objects.latest('id').id+1
+    success_url = f'/pets/{pk}/pet_form_photo/'
+
+# class PetCreatePhoto(LoginRequiredMixin, DetailView):
+#     model = Pet
+#     template_name = 'pet_form_photo.html'
+#     def get_context_data(self, *args, **kwargs):
+#       context = super(PetCreatePhoto, self).get_context_data(*args, **kwargs)
+#       context['pet'] = Pet.objects.filter(pk=self.kwargs.get('pk'))
+#       if context: return context
+#       return render(self.template_name)
+#     success_url = '/pets/{pk}/'
+
 
 class PetUpdate(LoginRequiredMixin, UpdateView):
   model = Pet
@@ -158,13 +167,12 @@ def generate_pdf_through_template(request):
 
 def render_pdf(request, pet_id):
     path = "pets/results.html"
-    reverse('render_pdf', pet_id)
-    # user = request.user
     context = {"pet" : Pet.objects.get(id=pet_id)[:100]}
     html = render_to_string('pets/results.html',context)
     io_bytes = BytesIO()    
     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
     if not pdf.err:
+        reverse('render_pdf', pet_id)
         return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
     else:
         return HttpResponse("Error while rendering PDF", status=400)
