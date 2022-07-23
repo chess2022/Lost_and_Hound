@@ -16,5 +16,6 @@ urlpatterns = [
   path('pets/<int:pet_id>/add_photo/', views.add_photo, name='add_photo'),
   path('generate-pdf', views.generate_pdf, name='generate_pdf'),
   path('generate-pdf-through-template', views.generate_pdf_through_template, name='generate_pdf_through_template'),
-  path('render-pdf/<int:pk>', views.render_pdf, name="render_pdf"),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+  path('render-pdf/<int:pet_id>', views.render_pdf, name="render_pdf"),
+] 
+# + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
