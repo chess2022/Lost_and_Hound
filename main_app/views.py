@@ -11,7 +11,9 @@ from .models import Pet, Photo
 from .forms import PetForm
 from io import BytesIO
 from xhtml2pdf import pisa
-from django.urls import reverse
+from django.shortcuts import get_object_or_404
+from django.template.loader import get_template
+# from django.urls import reverse
 import uuid
 import boto3
 
@@ -165,14 +167,43 @@ def generate_pdf_through_template(request):
     write_to_file.close()   
     return HttpResponse(result.err)
 
+# def render_pdf(request, pet_id):
+#     path = "pets/results.html"
+#     context = {"pet" : Pet.objects.get(id=pet_id)[:100]}
+#     html = render_to_string('pets/results.html',context)
+#     io_bytes = BytesIO()    
+#     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
+#     if not pdf.err:
+#         reverse('render_pdf', pet_id)
+#         return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
+#     else:
+#         return HttpResponse("Error while rendering PDF", status=400)
+
+# def render_pdf(request, *args, **kwargs):
+#     pk = kwargs.get('pk')
+#     pet = get_object_or_404(Pet, pk=pk)
+#     template_path = 'pets/results.html'
+#     # context = {'pet' : Pet.objects.get(id=pk)}
+#     context = {'pet' : pet}
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = 'filename="report.pdf"'
+#     template = get_template(template_path)
+#     html = template.render(context)
+#     io_bytes = BytesIO()    
+#     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
+#     if not pdf.err:
+#         return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
+#     else:
+#         return HttpResponse("Error while rendering PDF", status=400)
+
+@login_required
 def render_pdf(request, pet_id):
     path = "pets/results.html"
-    context = {"pet" : Pet.objects.get(id=pet_id)[:100]}
+    context = {"pet" : Pet.objects.get(id=pet_id), "user": request.user.id}
     html = render_to_string('pets/results.html',context)
     io_bytes = BytesIO()    
     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
     if not pdf.err:
-        reverse('render_pdf', pet_id)
         return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
     else:
         return HttpResponse("Error while rendering PDF", status=400)
