@@ -1,13 +1,16 @@
-{% include 'base.html' %}
+{% include 'base2.html' %}
 
 {% block content %}
-<h1 class="page-title">ALMOST THERE</h1>
 
-  {% if object %}
-    <h1>Edit <span class="teal-text">{{object.name}}</span></h1>
-  {% else %}
-    <h1>POST LOST PET</h1>
+  {% if object %} 
+<div class="title_flags top-margin">
+    <h3>Edit <span class="teal-text">{{object.name}}</span></h3>
+</div>  {% else %}
+<div class="title_flags top-margin">
+    <h3 style:"font-weight:bold">Post Lost Pet</h3>
+</div>
   {% endif %}
+  <br/><br/>
   <form action="" method="post">
     {% csrf_token %}
     <table>

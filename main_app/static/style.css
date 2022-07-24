@@ -60,16 +60,30 @@ a {
 }
 
 .top-margin {
-    margin-top: 125px;
+    margin-top: 75px;
 }
 
 .title_flags {
     max-width: 25%;
-    min-width: 250px;
+    min-width: 300px;
     background-color: #E5D0C1;
     color:#442214;
     text-transform: uppercase;
     padding-left: 30px;
+    padding-top: 10px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+}
+
+.home--title_flags {
+    max-width: 25%;
+    min-width: 300px;
+    background-color: #E5D0C1;
+    color:#442214;
+    text-transform: uppercase;
+    padding-left: 30px;
+    padding-top: 10px;
     height: 50px;
     line-height: 50px;
     font-size: 18px;
