@@ -6,7 +6,8 @@
 <br>
 <h1>SIGNUP</h1>
 <br>
-	<div>
+{% if error_message %}<p class="red-text">{{ error_message }}</p>{% endif %}
+<div>
 		<form method="POST" action="">
 			{% csrf_token %}
 			<div class="input-group mb-3">
@@ -38,6 +39,8 @@
 
 		</form>
 	</div>
+	
+
 	</div>
 	<div class="mt-4">
 		<div class="d-flex justify-content-center links">

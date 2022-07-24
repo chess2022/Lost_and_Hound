@@ -3,19 +3,21 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import View, ListView, DetailView
 # from main_app.forms import CreateUserForm
+
 from django.contrib import messages
+from django.contrib.auth.models import Group
 from django.contrib.auth import login, authenticate
-from django.template.loader import render_to_string
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+
+from django.template.loader import render_to_string
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Member, Pet, Photo
-from django.contrib.auth.models import Group
 from .forms import PetForm, CreateUserForm
 from io import BytesIO
 from xhtml2pdf import pisa
 from django.shortcuts import get_object_or_404
 from django.template.loader import get_template
-from django.contrib.auth.decorators import login_required
 # from django.urls import reverse
 import uuid
 import boto3
