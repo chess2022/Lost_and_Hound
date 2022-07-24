@@ -29,6 +29,7 @@
           <li><a class="dropdown-item" href="{% url 'pets_create' %}">Post</a></li>
           <li class="dropdown-divider"></li>
           <li><a class="dropdown-item" href="{% url 'logout' %}">Log out</a></li>
+          <span id="hello-msg">Hello, {{request.user}}</span>
           {% else %} 
           <li class="dropdown-divider"></li> 
           <li><a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a></li>
