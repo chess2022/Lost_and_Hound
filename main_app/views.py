@@ -2,7 +2,7 @@ import os
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import View, ListView, DetailView
-from main_app.forms import signUpForm
+from main_app.forms import CreateUserForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.template.loader import render_to_string
@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Member, Pet, Photo
 from django.contrib.auth.models import Group
-from .forms import PetForm, signUpForm
+from .forms import PetForm
 from io import BytesIO
 from xhtml2pdf import pisa
 from django.shortcuts import get_object_or_404
@@ -29,9 +29,9 @@ BUCKET = 'lost-and-hound'
 # ------------------------- KL-todo apply auth routes ------------------------ #
 
 def registerPage(request):
-	form = signUpForm()
+	form = CreateUserForm()
 	if request.method == 'POST':
-		form = signUpForm(request.POST)
+		form = CreateUserForm(request.POST)
 		if form.is_valid():
 			user = form.save()
 			username = form.cleaned_data.get('username')
@@ -85,22 +85,22 @@ def about(request):
 
 
 
-def signup(request):
-    error_message = ''
-    if request.method == 'POST':
-        form = signUpForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('accounts/login')
-        else:
-            error_message = 'Invalid sign-up. Please try again'
-    form = signUpForm()
-    context = {'form': form, 'error_message': error_message}
-    return render(request, 'registration/signup.html', context)
+# def signup(request):
+#     error_message = ''
+#     if request.method == 'POST':
+#         form = signUpForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             username = form.cleaned_data.get('username')
+#             raw_password = form.cleaned_data.get('password1')
+#             user = authenticate(username=username, password=raw_password)
+#             login(request, user)
+#             return redirect('accounts/login')
+#         else:
+#             error_message = 'Invalid sign-up. Please try again'
+#     form = signUpForm()
+#     context = {'form': form, 'error_message': error_message}
+#     return render(request, 'registration/signup.html', context)
 
 @login_required
 def pets_index(request):
