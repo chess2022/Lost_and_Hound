@@ -52,12 +52,36 @@
         height: 400pt;
     }
 
+    .name {
+        font-family: helvetica;
+        font-weight: bold;
+        font-size: 60pt;
+        margin: 0;
+        padding-bottom: 0;
+        {% comment %} -pdf-keep-in-frame-mode: shrink;    {% endcomment %}
+    }
+
+    .sex {
+        font-family: helvetica;
+        font-weight: bold;
+        font-size: 18pt;
+        margin: 0;
+        padding-top: 0;
+        {% comment %} -pdf-keep-in-frame-mode: shrink;    {% endcomment %}
+    }
+
+    .comments {
+        font-family: helvetica;
+        font-weight: bold;
+        font-size: 12pt;
+        margin: 0;
+        {% comment %} -pdf-keep-in-frame-mode: shrink;    {% endcomment %}
+    }
+
     .photo {
         width: 350pt;
         height: auto;
-        border-style: solid;
-        border-width: 3pt;
-        border-right-color: #000000;    }
+    }
 
     .details {
           width: 250pt;
@@ -65,7 +89,7 @@
 
     .footer {
         width: 600pt;
-        bottom: 6pt;
+        top: 617pt;
         height: 175pt;
         background-color: #eb0915;
         text-align: center;
@@ -77,6 +101,10 @@
         line-height: 175pt;
         width: 100%;
     }
+
+    {% comment %} .phone {
+
+    } {% endcomment %}
 
     </style>  
 </head>
@@ -94,16 +122,16 @@
             {% endfor %}
         </td>
         <td class="details">
-            <h2>{{ pet.name }}</h2>
-            <h3>{{ pet.sex }} {{ pet.breed }}</h3>
-            <p>{{ pet.comments }}</p>
+            <h1 class="name">{{ pet.name }}</h1>
+            <h1 class="sex">{{ pet.sex }} {{ pet.breed }}</h1>
+            <p class="comments">{{ pet.comments }}</p>
         </td>
     </tr>
     
     <tr class="footer">
         <td td colspan="2" class="footer-info">
             <h1>CALL OR TEXT WITH ANY INFORMATION</h1>
-            <h1>{{ user.phone }}</h1>
+            <h1 class="phone">{{ user.phone }}</h1>
         <td>
     </tr>
 </table>

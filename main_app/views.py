@@ -18,8 +18,8 @@ import uuid
 import boto3
 
 
-S3_BASE_URL='https://s3-us-west-2.amazonaws.com/'
-BUCKET='lostandhound'
+S3_BASE_URL = 'https://s3-us-west-2.amazonaws.com/'
+BUCKET = 'lost-and-hound'
 
 
 # Create your views here.
