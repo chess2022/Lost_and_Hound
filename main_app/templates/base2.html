@@ -15,7 +15,7 @@
   <header>
     <nav id="nav">
         <ul class="right">
-            <li><a href="#"><img id="logo" src="{% static 'logo.png' %}"></a></li>
+            <li><a href="/"><img id="logo" src="{% static 'logo.png' %}"></a></li>
             <li class="nav-link"><a href="{% url 'about' %}">About</a></li>
             <li class="nav-link"><a href="{% url 'index' %}">Lost Pets</a></li>
             {% if user.is_authenticated %} 
