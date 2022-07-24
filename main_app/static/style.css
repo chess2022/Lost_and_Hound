@@ -17,7 +17,7 @@ body {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
-
+    width: 100%;
 }
 
 .main {
@@ -37,11 +37,13 @@ body {
 footer {
     position:fixed;
     bottom: 0;
-    margin: auto;
+    right: 0;
+    left: 0;
     width: 100%;
     height: 2.5rem;
     background-color: #442214;
     color: white;
+    text-align: center;
 }
 
 .pet-photo {
@@ -61,14 +63,16 @@ a {
     margin-top: 125px;
 }
 
-.page-title {
+.title_flags {
     max-width: 25%;
+    min-width: 250px;
     background-color: #E5D0C1;
     color:#442214;
     text-transform: uppercase;
     padding-left: 30px;
     height: 50px;
     line-height: 50px;
+    font-size: 18px;
 }
 
 .button-brown {
@@ -81,7 +85,7 @@ a {
     text-transform: uppercase;
     display: inline-block;
     font-size: 16px;
-    border-radius: 12px; 
+    border-radius: 8px; 
     font-family: 'Roboto', sans-serif;
     font-weight: 300;  
 }
@@ -96,7 +100,7 @@ a {
     text-transform: uppercase;
     display: inline-block;
     font-size: 14px;
-    border-radius: 12px; 
+    border-radius: 8px; 
     font-family: 'Roboto', sans-serif;
     font-weight: 300;  
 }
@@ -106,54 +110,22 @@ a {
 /*           NAV              */
 /******************************/
 
-ul {
-    list-style-type:none;
-    display: flex;
-    flex-direction: row;
-    align-items: center; /* aligns links vertically */
-    position: fixed;
-    top: 0;
-    /* left: 0; */
-    z-index: 9999;
-    width: 90%;
-    height: 80px;
-    margin: auto;
-    padding: 0;
-    background-color:white;
-    text-transform: uppercase;
-
-}
-
-li {
-    color:#442214;
-    font-weight: 500;
-}
-
-.nav-link {
-    padding-right: 20px;
-
-}
-
 #logo {
     flex-grow: 1;
     height: 80px;
-    margin-right: 20px;
-
+    margin-right: auto;
 }
-
-.nav {
-    width: 90%;
-    margin: auto;
-    height: 80px;
-}
-
 
 /******************************/
 /*         HOME PAGE          */
 /******************************/
 
 .home {
-    margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+    height: 80vh;
+    width: 35%;
 }
 
 .home--title {
@@ -162,6 +134,48 @@ li {
     color:#442214;
 }
 
-.home--intro {
+/* .home--intro {
     width: 35%;
+} */
+
+.home--main {
+    flex: 4;
+    flex-shrink: 1;
+}
+
+.home--buttons {
+    flex: 2;
+    flex-shrink: 1;
+}
+
+.home--featured {
+    flex: 1;
+    flex-shrink: 1;
+}
+
+/******************************/
+/*         PET CARDS          */
+/******************************/
+
+.index--card {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 150px);
+    margin: 20px;
+    background-color: #65b7b1;
+}
+
+.index--box {
+    margin: 10px;
+    width: 200px;
+    height: 200px;}
+
+.index--card-photo {
+    display: block;
+    /* width: 100%;
+    height: 100%; */
+    object-fit: cover;
+}
+
+.index--card-info {
+    height: 50px;
 }

@@ -1,13 +1,13 @@
-{% include 'base.html' %}
+{% include 'base2.html' %}
 {% block content %}
 {% load static %}
 
 
-<div class="card-content top-margin">
-    <div class="page-title">
+<div class="">
+    <div class="title_flags">
         <h2>{{ pet.status }} {{ pet.type }}</h2>
     </div>
-    <div class="2col-grid">
+    <div class="">
         <div class="pet-photo">   
             {% for photo in pet.photo_set.all %}
                 <img src="{{photo.url}}" width="300px">
@@ -27,7 +27,6 @@
                 <a href="{% url 'pets_update' pet.id %}">Edit</a>
                 <a href="{% url 'pets_delete' pet.id %}">Delete</a> 
                 <a href="{% url 'render_pdf' pet.id %}" target="_blank">Get Flyer</a>
-   
             </div>
         </div>
     </div>
