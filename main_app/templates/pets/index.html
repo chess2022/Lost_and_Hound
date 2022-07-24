@@ -2,15 +2,15 @@
 {% include 'base3.html' %}
 {% block content %}
 
-<div class="title_flags">
+<div class="title_flags top-margin">
     <p style:"font-weight:bold">Featured Lost Pets</p>
 </div>
 
 
 {% for pet in pets %}
   <a href="{% url 'detail' pet.id %}">
-    <div class="index--card">
-      <div class="index--box">
+    <div class="container">
+      <div class="row row-cols-auto">
         <div class="index--card-photo">
             <div class="pet-photo">   
             {% for photo in pet.photo_set.all %}
