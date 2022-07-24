@@ -3,29 +3,77 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import View, ListView, DetailView
 from main_app.forms import signUpForm
+from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.template.loader import render_to_string
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Pet, Photo
-from .forms import PetForm
+from .models import Member, Pet, Photo
+from django.contrib.auth.models import Group
+from .forms import PetForm, signUpForm
 from io import BytesIO
 from xhtml2pdf import pisa
 from django.shortcuts import get_object_or_404
 from django.template.loader import get_template
+from django.contrib.auth.decorators import login_required
 # from django.urls import reverse
 import uuid
 import boto3
 
 
-S3_BASE_URL = 'https://s3.us-east-1.amazonaws.com/'
-BUCKET = 'mycatcollector'
-
+S3_BASE_URL = 'https://s3-us-west-2.amazonaws.com/'
+BUCKET = 'lost-and-hound'
 
 # Create your views here.
 
 # ------------------------- KL-todo apply auth routes ------------------------ #
-from django.contrib.auth.decorators import login_required
+
+def registerPage(request):
+	form = signUpForm()
+	if request.method == 'POST':
+		form = signUpForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			username = form.cleaned_data.get('username')
+
+			group = Group.objects.get(name='member')
+			user.groups.add(group)
+			#Added username after video because of error returning customer name if not added
+			Member.objects.create(
+				user=user,
+				name=user.username,
+				)
+
+			messages.success(request, 'Account was created for ' + username)
+
+			return redirect('login')
+		
+
+	context = {'form':form}
+	return render(request, 'accounts/register.html', context)
+
+
+def loginPage(request):
+
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password =request.POST.get('password')
+
+		user = authenticate(request, username=username, password=password)
+
+		if user is not None:
+			login(request, user)
+			return redirect('home')
+		else:
+			messages.info(request, 'Username OR password is incorrect')
+
+	context = {}
+	return render(request, 'accounts/login.html', context)
+
+def logoutUser(request):
+	logout(request)
+	return redirect('login')
+
 # Create your views here.
 
 

@@ -4,6 +4,11 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+  path('register/', views.registerPage, name="register"),
+  path('login/', views.loginPage, name="login"),  
+	path('logout/', views.logoutUser, name="logout"),
+ 
+ 
   path('', views.home, name='home'), #HOME ROUTE
   path('about/', views.about, name='about'), #ABOUT ROUTE
   path('accounts/signup/', views.signup, name='signup'), #SIGNUP ROUTE 
