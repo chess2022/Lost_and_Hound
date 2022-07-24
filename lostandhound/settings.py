@@ -115,7 +115,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 # Add this variable to specify where successful logins should redirect to
-LOGIN_REDIRECT_URL = '/index/'
+LOGIN_REDIRECT_URL = '/'
 # Add this variable to specify where logging out redirects to
 LOGOUT_REDIRECT_URL = '/'
 

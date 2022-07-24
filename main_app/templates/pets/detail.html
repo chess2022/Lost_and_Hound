@@ -10,12 +10,17 @@
         {% empty %}
             <div class="">No Photos Uploaded</div>
         {% endfor %}
+
+        {% comment %} ADD IF STATMENT  {% endcomment %}
             <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST" class="">
         {% csrf_token %}
                 <input type="file" name="photo-file">
                 <br><br>
                 <input type="submit" class="btn" value="Upload Photo">
             </form>
+
+
+
     </div>
     <div>
         <span class="">
@@ -25,11 +30,22 @@
         <h4>Breed: {{ pet.breed }}</h4>
         <h4>Comments: {{ pet.comments }}</h4>
         <div class="">
+
+
+            {% comment %} AUTH -  ADD IF STATMENT {% endcomment %}
             <a href="{% url 'pets_update' pet.id %}">Edit</a>
-            <a href="{% url 'pets_delete' pet.id %}">Delete</a>    
+            <a href="{% url 'pets_delete' pet.id %}">Delete</a>   
+
+
         </div>
     </div>
+
+
+    {% comment %} AUTH - ADD IF STATMENT  {% endcomment %}
     <a href="{% url 'render_pdf' pet.id %}" target="_blank">Get Flyer</a>
+
+
+
 </div>
 
 
