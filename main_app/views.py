@@ -9,6 +9,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from .decorators import unauthenticated_user, allowed_users
 
 from django.template.loader import render_to_string
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -30,6 +31,7 @@ BUCKET = 'lost-and-hound'
 
 # ------------------------- KL-todo apply auth routes ------------------------ #
 
+@unauthenticated_user
 def registerPage(request):
 	form = CreateUserForm()
 	if request.method == 'POST':
@@ -40,7 +42,6 @@ def registerPage(request):
 
 			group = Group.objects.get(name='member')
 			user.groups.add(group)
-			#Added username after video because of error returning customer name if not added
 			Member.objects.create(
 				user=user,
 				name=user.username,
@@ -54,7 +55,14 @@ def registerPage(request):
 	context = {'form':form}
 	return render(request, 'accounts/register.html', context)
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['member'])
+def userPage(request):
+	profile = request.user.member._set.all()
 
+	return render(request, 'accounts/user.html')
+
+@unauthenticated_user
 def loginPage(request):
 
 	if request.method == 'POST':
@@ -104,10 +112,11 @@ def about(request):
 #     context = {'form': form, 'error_message': error_message}
 #     return render(request, 'registration/signup.html', context)
 
-@login_required
+
 def pets_index(request):
   pets = Pet.objects.order_by('name')
   return render(request, 'pets/index.html', {'pets':pets})
+
 
 def pets_detail(request, pet_id):
   pet = Pet.objects.get(id=pet_id)
@@ -121,8 +130,10 @@ def pets_create_photo(request, pet_id):
   pet_form = PetForm()
   return render(request, 'main_app/pet_form_photo.html', {'pet': pet, 'pet_form': pet_form})
 
-class PetList(LoginRequiredMixin, ListView):
+class PetList(ListView):
   model = Pet
+
+
 
 class PetCreate(LoginRequiredMixin, CreateView):
     model = Pet
@@ -144,15 +155,18 @@ class PetCreate(LoginRequiredMixin, CreateView):
 #     success_url = '/pets/{pk}/'
 
 
+
 class PetUpdate(LoginRequiredMixin, UpdateView):
   model = Pet
   fields = '__all__'
 
-class PetDelete(DeleteView):
+
+
+class PetDelete(LoginRequiredMixin, DeleteView):
   model = Pet
   success_url = '/pets/'
 
-@login_required
+
 def add_photo(request, pet_id):
   photo_file = request.FILES.get('photo-file', None)
   if photo_file:
@@ -212,6 +226,7 @@ def generate_pdf(request):
     write_to_file.close()
     return HttpResponse(result.err)
 
+
 def generate_pdf_through_template(request):
     context={}
     html = render_to_string('pdf/results',context)   
@@ -219,6 +234,7 @@ def generate_pdf_through_template(request):
     result = pisa.CreatePDF(html,dest=write_to_file)  
     write_to_file.close()   
     return HttpResponse(result.err)
+
 
 def render_pdf(request, pet_id):
     path = "pets/results.html"
@@ -232,24 +248,25 @@ def render_pdf(request, pet_id):
     else:
         return HttpResponse("Error while rendering PDF", status=400)
 
-def render_pdf(request, *args, **kwargs):
-    pk = kwargs.get('pk')
-    pet = get_object_or_404(Pet, pk=pk)
-    template_path = 'pets/results.html'
-    # context = {'pet' : Pet.objects.get(id=pk)}
-    context = {'pet' : pet}
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'filename="report.pdf"'
-    template = get_template(template_path)
-    html = template.render(context)
-    io_bytes = BytesIO()    
-    pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
-    if not pdf.err:
-        return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
-    else:
-        return HttpResponse("Error while rendering PDF", status=400)
 
-@login_required
+# def render_pdf(request, *args, **kwargs):
+#     pk = kwargs.get('pk')
+#     pet = get_object_or_404(Pet, pk=pk)
+#     template_path = 'pets/results.html'
+#     # context = {'pet' : Pet.objects.get(id=pk)}
+#     context = {'pet' : pet}
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = 'filename="report.pdf"'
+#     template = get_template(template_path)
+#     html = template.render(context)
+#     io_bytes = BytesIO()    
+#     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), io_bytes)   
+#     if not pdf.err:
+#         return HttpResponse(io_bytes.getvalue(), content_type='application/pdf')
+#     else:
+#         return HttpResponse("Error while rendering PDF", status=400)
+
+
 def render_pdf(request, pet_id):
     path = "pets/results.html"
     context = {"pet" : Pet.objects.get(id=pet_id), "user": request.user.id}
