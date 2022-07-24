@@ -6,7 +6,7 @@ from django.views.generic import View, ListView, DetailView
 
 from django.contrib import messages
 from django.contrib.auth.models import Group
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
@@ -70,7 +70,7 @@ def loginPage(request):
 			messages.info(request, 'Username OR password is incorrect')
 
 	context = {}
-	return render(request, 'accounts/login.html', context)
+	return render(request, '/accounts/login/', context)
 
 def logoutUser(request):
 	logout(request)

@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500&display=swap" rel="stylesheet">
     <title>Lost and Hound</title>
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-</head>
+  </head>
 <body class="secondary">
   <header>
     <nav id="nav">
@@ -18,15 +18,20 @@
             <li><a href="#"><img id="logo" src="{% static 'logo.png' %}"></a></li>
             <li class="nav-link"><a href="{% url 'about' %}">About</a></li>
             <li class="nav-link"><a href="{% url 'index' %}">Lost Pets</a></li>
-{% comment %} {% if user.is_authenticated %} {% endcomment %}
+            {% if user.is_authenticated %} 
             <li class="nav-link"><a href="{% url 'pets_create' %}">Post</a></li>
             <li class="nav-link"><a href="{% url 'logout' %}">Log Out</a></li>
-            {% comment %} {% else %}   {% endcomment %}
+            <span id="hello-msg">Hello, {{request.user}}</span>
+          
+            {% else %}  
             <li class="nav-link"><a href="{% url 'register' %}">Sign Up</a></li>
             <li class="nav-link"><a href="{% url 'login' %}">Log In</a></li>
-            {% comment %} {% endif %} {% endcomment %}
+            {% endif %}
           </ul>
+
     </nav>
+
+    
   </header>
         {% block content %}
 
