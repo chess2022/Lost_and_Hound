@@ -44,12 +44,21 @@ footer {
     color: white;
 }
 
+.pet-photo {
+    width: 300px;
+    margin-top: 20px;
+}
+
 /******************************/
 /*     UNIVERSAL ELEMENTS     */
 /******************************/
 
 a {
     text-decoration: none;
+}
+
+.top-margin {
+    margin-top: 125px;
 }
 
 .page-title {
@@ -91,6 +100,7 @@ a {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;  
 }
+
 
 /******************************/
 /*           NAV              */
