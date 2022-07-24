@@ -1,0 +1,15 @@
+{% include 'base.html' %}
+
+{% block content%}
+
+<h1>Remove lost dog</h1>
+
+<h4>Are you sure you want to remove <span class="teal-text">{{ object.name }}</span>?</h4>
+
+<form action="">
+{% csrf_token %}
+<input type="submit" value="Confirm Removal" class="btn">
+<a href="{% url 'detail' pet.id %}">Cancel</a>
+</form>
+
+{% endblock content %}
