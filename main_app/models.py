@@ -51,6 +51,7 @@ class Pet(models.Model):
     (FOUND, 'Found')
   ]
   status = models.CharField(max_length=5, choices=STATUS_OPTIONS, default=LOST)
+  member = models.ForeignKey(Member, null=True, on_delete= models.SET_NULL)
   
   def __str__(self):
     return self.name
