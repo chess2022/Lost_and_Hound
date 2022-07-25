@@ -1,0 +1,41 @@
+{% include 'base.html' %}
+{% block content %}
+
+<div class="title_flags top-margin">
+    <h3 style:"font-weight:bold">Almost There</h3>
+</div>
+<br><br>
+<div class="card-content">
+    <div>   
+        <h5>Please Upload a Photo</h5>
+        {% for photo in pet.photo_set.all %}
+            <img class="pet_photo" src="{{photo.url}}" width="200px">
+        {% empty %}
+            <div class="">No Photos Uploaded</div>
+        {% endfor %}
+            <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST" class="">
+        {% csrf_token %}
+                <input type="file" name="photo-file">
+                <br><br>
+                <input type="submit" class="btn" value="Upload Photo">
+            </form>
+    </div>
+    <div>
+        <span class="">
+        <h3>I have {{ pet.status }} a {{ pet.type }}.</h3>
+        <h4>Name: {{ pet.name }}</h4>
+        <h4>City: {{ pet.city }}</h4>
+        <h4>State: {{ pet.state }}</h4>
+        <h4>Breed: {{ pet.breed }}</h4>
+        <h4>Comments: {{ pet.comments }}</h4>
+        <div class="">
+            <a href="{% url 'pets_update' pet.id %}">Edit</a>
+            <a href="{% url 'pets_delete' pet.id %}">Delete</a>    
+        </div>
+    </div>
+    <a href="/render-pdf" target="_blank">Get Flyer</a>
+</div>
+
+
+
+{% endblock %}

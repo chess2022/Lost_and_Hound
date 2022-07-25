@@ -1,0 +1,37 @@
+{% include 'base2.html' %}
+{% block content %}
+{% load static %}
+
+
+<div class="">
+    <div class="title_flags top-margin">
+        <h3>{{ pet.status }} {{ pet.type }}</h3>
+    </div>
+    <div class="">
+        <div class="pet-photo">   
+            {% for photo in pet.photo_set.all %}
+                <img src="{{photo.url}}" width="300px">
+            {% empty %}
+                <div><img src="{% static 'noPhoto.png' %}" width="300px"></div>
+            {% endfor %}
+                </form>
+        </div>
+        <div>
+            <span class="">
+            <h4>Name: {{ pet.name }}</h4>
+            <h4>City: {{ pet.city }}</h4>
+            <h4>State: {{ pet.state }}</h4>
+            <h4>Breed: {{ pet.breed }}</h4>
+            <h4>Comments: {{ pet.comments }}</h4>
+            <div class="">
+                <a href="{% url 'pets_update' pet.id %}">Edit</a>
+                <a href="{% url 'pets_delete' pet.id %}">Delete</a> 
+                <a href="{% url 'render_pdf' pet.id %}" target="_blank">Get Flyer</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}
