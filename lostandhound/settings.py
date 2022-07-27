@@ -4,29 +4,29 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR=os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 import environ
-env = environ.Env(
+env=environ.Env(
     DEBUG=(bool, False)
 )
 # environ.Env.read_env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
-DEBUG = env('DEBUG')
+SECRET_KEY=env('SECRET_KEY')
+DEBUG=env('DEBUG')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG=False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS=[]
 
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS=[
     'main_app',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'crispy_forms'
 ]
 
-MIDDLEWARE = [
+MIDDLEWARE=[
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -47,9 +47,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'lostandhound.urls'
+ROOT_URLCONF='lostandhound.urls'
 
-TEMPLATES = [
+TEMPLATES=[
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
@@ -65,10 +65,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'lostandhound.wsgi.application'
+WSGI_APPLICATION='lostandhound.wsgi.application'
 
 
-DATABASES = {
+DATABASES={
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'lostandhound',
@@ -79,7 +79,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
+AUTH_PASSWORD_VALIDATORS=[
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -110,12 +110,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
+STATIC_URL='/static/'
+STATIC_ROOT=os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS=[
     os.path.join(BASE_DIR, 'static')
 ]
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE='whitenoise.storage.CompressedStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
