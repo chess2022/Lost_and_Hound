@@ -1,0 +1,51 @@
+{% include 'base2.html' %}
+{% load static %}
+{% block content %}
+
+<div class="title_flags top-margin">
+    <h3>Almost There</h3>
+</div>
+<br><br>
+<div class="container3cols">
+        <div style="padding-right:75px; padding-left:30px">   
+            <h3>Please Upload a Photo</h3>
+            {% for photo in pet.photo_set.all %}
+                <img class="no-photo" src="{{photo.url}}">
+            {% empty %}
+                <div class=""><img src="{% static 'noPhoto.png' %}" class="no-photo"></div>
+            {% endfor %}
+                <form action="{% url 'add_photo' pet.id %}" enctype="multipart/form-data" method="POST" class="">
+            {% csrf_token %}
+                    <input type="file" name="photo-file">
+                    <br><br>
+                    <input type="submit" id="button-pink" value="Upload Photo">
+                </form>
+        </div>
+        <div class="container2cols">
+            <div>
+                <h4 class="field-label">I HAVE</h4>
+                <h4 class="field-label">NAME</h4>
+                <h4 class="field-label">LOCATION</h4>
+                <h4 class="field-label">BREED</h4>
+                <h4 class="field-label">GENDER</h4>
+                <h4 class="field-label">PHONE</h4>
+                <h4 class="field-label">COMMENTS</h4>
+            </div>
+            <div>
+                <h4 class="field-box">{{ pet.status }} a {{ pet.type }}</h4>
+                <h4 class="field-box">{{ pet.name }}</h4>
+                <h4 class="field-box">{{ pet.city }}, {{ pet.state }}</h4>
+                <h4 class="field-box">{{ pet.breed }}</h4>
+                <h4 class="field-box">{{ pet.sex }}</h4>
+                <h4 class="field-box">{{ pet.phone }}</h4>
+                <h4 class="field-box">{{ pet.comments }}</h4>
+                <br/>
+                {% comment %} <a href="{% url 'pets_update' pet.id %}"><button class="button-pink">Edit</buton></a> {% endcomment %}
+                <a href="{% url 'pets_delete' pet.id %}"><button class="button-pink">Delete</button></a>
+            </div>
+        </div>
+</div>
+
+
+
+{% endblock %}

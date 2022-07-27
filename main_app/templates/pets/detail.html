@@ -1,0 +1,73 @@
+{% include 'base2.html' %}
+{% block content %}
+{% load static %}
+
+
+<div class="title_flags top-margin">
+    <h3>{{ pet.name }}</h3>
+</div>
+    <br/><br/>
+<div class="container3cols">
+        <div class="pet-photo">   
+            {% for photo in pet.photo_set.all %}
+                <img src="{{photo.url}}" width="300px">
+            {% empty %}
+                <div><img src="{% static 'noPhoto.png' %}" width="300px"></div>
+            {% endfor %}
+                </form>
+        </div>
+        <div class="container2cols">
+            <div>
+                <h4 class="field-label">LOCATION</h4>
+                <h4 class="field-label">BREED</h4>
+                <h4 class="field-label">GENDER</h4>
+                <h4 class="field-label">COMMENTS</h4>
+            </div>
+            <div>
+                <h4 class="field-box">{{ pet.city }}, {{ pet.state }}</h4>
+                <h4 class="field-box">{{ pet.breed }}</h4>
+                <h4 class="field-box">{{ pet.sex }}</h4>
+                <h4 class="field-box">{{ pet.comments }}</h4>
+                <br/>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'pets_update' pet.id %}"><button class="button-pink">Edit</buton></a>
+                <a href="{% url 'pets_delete' pet.id %}"><button class="button-pink">Delete</button></a>
+                <a href="{% url 'render_pdf' pet.id %}" target="_blank"><button class="button-pink">Get Flyer</button></a>
+            {% else %}
+                <a href="{% url 'render_pdf' pet.id %}" target="_blank"><button class="button-pink">Get Flyer</button></a>
+                <a href="mailto:{{ pet.user.email }}?subject=Regarding%20{{ pet.status }}%20{{ pet.type }},%20{{ pet.name }}" target="_blank"><button class="button-pink">Contact</button></a>
+            {% endif %}
+            </div>
+        </div>
+</div>
+<div class="title_flags top-margin">
+    <h3>Featured Lost Pets</h3>
+</div>
+    <br/><br/>
+    {{p}}
+        <div class="index-single-container">
+            <div class="index--grid--oneRow">
+            {% for pet in pets %}
+                <div class="index--itemBox">
+                    <a href="{% url 'detail' pet.id %}">
+                        <div class="index--overlay">
+                            <div class="index--overlayText">
+                            <h2>{{ pet.name }}</h2>
+                            <h3>{{ pet.city }}, {{ pet.state }}</h3>
+                            </div>
+                        </div>              
+                    {% for photo in pet.photo_set.all %}
+                        <img class="index--card-photo" src="{{photo.url}}">
+                    {% empty %}
+                        <img class="index--card-photo" src="https://lostandhound.s3.us-west-2.amazonaws.com/noPhoto.png">
+                    {% endfor %}
+                    </a>
+                </div>
+            {% endfor %}
+            </div>
+            <div class="index--itemBox-more"><a href="{% url 'index' %}">See more <i class="arrow right"></i></a></div>
+        </div>
+
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base2.html' %}
+{% block content %}
+  {% load static %}
+
+
+<div class="title_flags top-margin">
+    <h3>Create an Account</h3>
+</div>
+<br/><br/>
+{% if error_message %}<p class="red-text">{{ error_message }}</p>{% endif %}
+
+<div class="container3cols">
+	<div class>
+		<img class="register--cat" src="{% static 'cat.png' %}">
+	</div>
+	<div>
+		<form method="POST" action="">
+			{% csrf_token %}
+			<div class="input-group mb-3">
+				<span class="register-label">{{form.username.label}}</span>
+				{{form.username}}
+			</div>
+			<div class="input-group mb-2">
+				<span class="register-label">{{form.first_name.label}}</span>
+				{{form.first_name}}
+			</div>
+			<div class="input-group mb-2">
+				<span class="register-label">{{form.email.label}}</span>
+				{{form.email}}
+			</div>
+
+			<div class="input-group mb-2">
+				<span class="register-label">{{form.password1.label}}</span>
+				{{form.password1}}
+			</div>
+			<div class="input-group mb-2">
+				<span class="register-label">{{form.password2.label}}</span>
+				{{form.password2}}
+			</div>
+
+				<input class="btn login_btn" type="submit" value="Register Account">
+
+		</form>
+		<div>
+			Already have an account? <a href="{% url 'login' %}" class="ml-2">Login</a>
+		</div>
+	</div>
+	<div></div>
+
+</div> 
+<script>
+
+		var form_fields = document.getElementsByTagName('input')
+		form_fields[1].placeholder='Username..';
+		form_fields[2].placeholder='Email..';
+		form_fields[3].placeholder='Enter password...';
+		form_fields[4].placeholder='Re-enter Password...';
+
+
+
+		for (var field in form_fields){	
+			form_fields[field].className += ' form-control'
+		}
+	</script>
+
+	{% endblock %} 

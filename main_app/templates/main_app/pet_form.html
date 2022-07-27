@@ -1,0 +1,30 @@
+{% include 'base2.html' %}
+{% load static %}
+{% block content %}
+
+  {% if object %} 
+<div class="title_flags top-margin">
+    <h3>Edit <span class="teal-text">{{object.name}}</span></h3>
+</div>  {% else %}
+<div class="title_flags top-margin">
+    <h3>Post Lost Pet</h3>
+</div>
+  {% endif %}
+  <br/><br/>
+<div class="container3cols">
+  <div>
+    <img src="{% static 'noPhoto.png' %}" class="no-photo">
+    <p class="no-photo">You will be able to upload an image in the next step</p>
+  </div>
+  <div>
+    <form action="" method="post">
+      {% csrf_token %}
+      <table>
+        {{ form.as_table }}
+      </table>
+      <input type="submit" value="Next Step" class="btn">
+    </form>
+  </div>
+  <div></div>
+</div>
+{% endblock %}

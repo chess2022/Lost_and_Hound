@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500&display=swap" rel="stylesheet">
+    <title>Lost and Hound</title>
+<style>
+    @page {
+        size: letter portrait;
+        @frame top {
+          width: 612pt;
+          top: 0pt;
+          left: 0pt;
+          height: 792pt;
+        }
+      }
+    table {
+        margin-left: auto;
+        margin-right: auto;
+        -pdf-keep-in-frame-mode: shrink;   
+    }
+
+    td { padding: 5pt; }
+
+    .top {
+        width: 600pt;
+        top: 6pt;
+        left: 6pt;
+        height: 190pt;
+        background-color: #eb0915;
+    }
+
+    #header {
+        color: white;
+        font-family: helvetica;
+        font-weight: bold;
+        font-size: 275pt;
+        text-align: center;
+        width: 100%;
+        line-height: 190pt;
+    }
+
+    .middle {
+        width: 600pt;
+        top: 195pt;
+        left: 6pt;
+        height: 400pt;
+    }
+
+    .name {
+        font-family: helvetica;
+        font-weight: bold;
+        font-size: 40pt;
+        margin: 0;
+        padding-bottom: 0;
+        {% comment %} -pdf-keep-in-frame-mode: shrink;    {% endcomment %}
+    }
+
+    .sex {
+        font-family: helvetica;
+        font-weight: bold;
+        font-size: 18pt;
+        margin: 0;
+        padding-top: 0;
+        {% comment %} -pdf-keep-in-frame-mode: shrink;    {% endcomment %}
+    }
+
+    .comments {
+        font-family: helvetica;
+        font-weight: bold;
+        font-size: 12pt;
+        margin: 0;
+        {% comment %} -pdf-keep-in-frame-mode: shrink;    {% endcomment %}
+    }
+
+    .photo {
+        width: 350pt;
+        height: auto;
+    }
+
+    .details {
+          width: 250pt;
+    }
+
+    .footer {
+        width: 600pt;
+        top: 617pt;
+        height: 200pt;
+        background-color: #eb0915;
+        text-align: center;
+        color: white;
+        font-family: helvetica;
+        font-weight: bold;
+        font-size: 275pt;
+        width: 100%;
+        line-height: 190pt;
+    }
+
+    .footer-info {
+        color: white;
+        width: 100%;
+    }
+
+    #call-line {
+        font-size:100pt;
+    }
+
+    .phone {
+        font-weight: bold;
+        font-size: 275pt;
+        width: 100%;
+        margin-top: 0;
+    }
+
+    {% comment %} .phone {
+
+    } {% endcomment %}
+
+    </style>  
+</head>
+
+<body>
+<table>
+    <tr class="top"><td colspan="2"><h1 id="header">{{ pet.status }} {{ pet.type }}</h1></td></tr>      
+    <tr class="middle">
+        <td class="photo">
+            <div>
+            {% for photo in pet.photo_set.all %}
+            <img src="{{ photo.url }}" class="results-photo" alt="Lost pet photo"></div>
+            {% empty %}
+            <div class="results--placeholder">No Photo Available</div>
+            {% endfor %}
+        </td>
+        <td class="details">
+            <h1 class="name">{{ pet.name }}</h1>
+            <h1 class="sex">{{ pet.sex }} {{ pet.breed }}</h1>
+            <p class="comments">{{ pet.comments }}</p>
+        </td>
+    </tr>
+    
+    <tr class="footer">
+        <td td colspan="2" class="footer-info">
+            <h1 id="call-line">CALL OR TEXT WITH ANY INFORMATION</h1>
+            <h1 class="phone">{{ pet.phone }}</h1>
+        <td>
+    </tr>
+</table>
+</body>
+</html>
+
+
+

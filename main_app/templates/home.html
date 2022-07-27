@@ -1,0 +1,44 @@
+{% include 'base.html' %}
+{% block content %}
+
+<div class="home">
+    <div class="home--main">
+        <h1 class="home--title">THE LOST & HOUND</h1>
+        <br/><br/>
+        <p class="home--intro">Need to put a snazzy little blurb here about what the site does and it's features to get folks excited</p>
+    </div>
+    <div class="home--buttons">
+        <a href="{% url 'pets_create' %}"><button class="button-pink">Post lost Pet</button></a>
+        <a href="{% url 'index' %}"><button class="button-pink">Find lost Pets</button></a>
+    </div>
+    <div class="home--featured">
+        <div class="title_flags" >
+            <h3>Featured Lost Pets</h3>
+        </div>
+    </div>
+</div>
+        <div class="index-single-container">
+            <div class="index--grid--oneRow">
+            {% for pet in pets %}
+                <div class="index--itemBox">
+                    <a href="{% url 'detail' pet.id %}">
+                        <div class="index--overlay">
+                            <div class="index--overlayText">
+                            <h2>{{ pet.name }}</h2>
+                            <h3>{{ pet.city }}, {{ pet.state }}</h3>
+                            </div>
+                        </div>              
+                    {% for photo in pet.photo_set.all %}
+                        <img class="index--card-photo" src="{{photo.url}}">
+                    {% empty %}
+                        <img class="index--card-photo" src="https://lostandhound.s3.us-west-2.amazonaws.com/noPhoto.png">
+                    {% endfor %}
+                    </a>
+                </div>
+            {% endfor %}
+            </div>
+            <div class="index--itemBox-more"><a href="{% url 'index' %}">See more <i class="arrow right"></i></a></div>
+        </div>
+
+
+{% endblock %}

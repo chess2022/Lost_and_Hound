@@ -1,0 +1,38 @@
+{% load static %}
+{% include 'base3.html' %}
+{% block content %}
+
+{% comment %} <div class="index--top"> {% endcomment %}
+<div class="title_flags top-margin">
+    <h3>Featured Lost Pets</h3>
+</div>
+<div style="margin-top:20px">
+  <form method=POST action="{% url 'search_pets'%}">
+    {% csrf_token %}
+    <input type="search" placeholder="Search Pets" aria-label="Search" name="searched">
+    <button class="btn">Search</button>
+  </form>
+</div>
+{% comment %} </div> {% endcomment %}
+
+<div class="index--grid">
+{% for pet in pets %}
+      <div class="index--itemBox">
+          <a href="{% url 'detail' pet.id %}">
+            <div class="index--overlay">
+                <div class="index--overlayText">
+                  <h2>{{ pet.name }}</h2>
+                  <h3>{{ pet.city }}, {{ pet.state }}</h3>
+                </div>
+            </div>              
+                  {% for photo in pet.photo_set.all %}
+                      <img class="index--card-photo" src="{{photo.url}}">
+                  {% empty %}
+                      <img class="index--card-photo" src="https://lostandhound.s3.us-west-2.amazonaws.com/noPhoto.png">
+                  {% endfor %}
+          </a>
+      </div>
+
+{% endfor %}
+</div>
+{% endblock %}
