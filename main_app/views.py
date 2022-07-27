@@ -23,7 +23,7 @@ from django.contrib.staticfiles import finders
 import os
 from django.db.models import Max
 from django.http import Http404
-
+from django.db.models.signals import pre_save
 
 S3_BASE_URL='https://s3-us-west-2.amazonaws.com/'
 BUCKET='lostandhound'
@@ -35,6 +35,13 @@ BUCKET='lostandhound'
 # ------------------------- KL-todo apply auth routes ------------------------ #
 from django.contrib.auth.decorators import login_required
 # Create your views here.
+
+# def ready(self):
+#     # importing model classes
+#     from .models import Pet, Member, Photo  
+
+#     # registering signals with the model's string label
+#     pre_save.connect(receiver, sender=['main_app.Pet','main_app.Member','main_app.Photo'])
 
 
 @unauthenticated_user
