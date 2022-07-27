@@ -26,7 +26,7 @@ from django.http import Http404
 
 
 S3_BASE_URL='https://s3-us-west-2.amazonaws.com/'
-BUCKET='lost-and-hound'
+BUCKET='lostandhound'
 
 
 
