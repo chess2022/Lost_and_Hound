@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -10,10 +11,12 @@ class Member(models.Model):
     phone_regex = RegexValidator(regex=r'^([0-9]{3}[\-]{1}[0-9]{3}[\-]{1}[0-9]{4})$')
     phone = models.CharField(validators=[phone_regex], max_length=17, help_text='Phone number must be entered in the format: 000-000-0000.', null=True)
     email = models.CharField(max_length=200, null=True)
+    profile_pic = models.ImageField(null=True, blank=True, default= 'profile-image.png')
 
     def __str__(self):
       return self.name
-
+  
+    
 class Pet(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE)
     member = models.ForeignKey(Member, null=True, on_delete= models.SET_NULL) 

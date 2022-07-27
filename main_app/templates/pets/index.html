@@ -2,16 +2,18 @@
 {% include 'base3.html' %}
 {% block content %}
 
+{% comment %} <div class="index--top"> {% endcomment %}
 <div class="title_flags top-margin">
     <h3>Featured Lost Pets</h3>
 </div>
-<div>
+<div style="margin-top:20px">
   <form method=POST action="{% url 'search_pets'%}">
     {% csrf_token %}
     <input type="search" placeholder="Search Pets" aria-label="Search" name="searched">
     <button class="btn">Search</button>
   </form>
 </div>
+{% comment %} </div> {% endcomment %}
 
 <div class="index--grid">
 {% for pet in pets %}

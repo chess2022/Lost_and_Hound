@@ -1,15 +1,18 @@
 {% extends 'base2.html' %}
 {% block content %}
+  {% load static %}
 
 
 <div class="title_flags top-margin">
-    <h3>Featured Lost Pets</h3>
+    <h3>Create an Account</h3>
 </div>
 <br/><br/>
 {% if error_message %}<p class="red-text">{{ error_message }}</p>{% endif %}
 
 <div class="container3cols">
-	<div></div>
+	<div class>
+		<img class="register--cat" src="{% static 'cat.png' %}">
+	</div>
 	<div>
 		<form method="POST" action="">
 			{% csrf_token %}
@@ -49,10 +52,9 @@
 
 		var form_fields = document.getElementsByTagName('input')
 		form_fields[1].placeholder='Username..';
-		form_fields[2].placeholder='Name..';
-		form_fields[3].placeholder='Email..';
-		form_fields[4].placeholder='Enter password...';
-		form_fields[5].placeholder='Re-enter Password...';
+		form_fields[2].placeholder='Email..';
+		form_fields[3].placeholder='Enter password...';
+		form_fields[4].placeholder='Re-enter Password...';
 
 
 

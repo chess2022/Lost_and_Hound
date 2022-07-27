@@ -128,7 +128,7 @@ a {
     margin: 4px 2px; 
 }
 
-.button-pink, #button-pink {
+.button-pink, #button-pink, .btn {
     background-color:#d9534f;
     border: none;
     color: white;
@@ -167,6 +167,10 @@ a {
     background-color: white;
     border: 1px solid #d9534f;
     color:#d9534f
+}
+
+button {
+
 }
 
 
@@ -384,6 +388,7 @@ a {
 
 input, select {
     width: 100%;
+    max-width: 400px;
     padding: 12px 20px;
     margin: 1px 0;
     display: inline-block;
@@ -406,7 +411,7 @@ tr {
     background-color: #65b7b1;
 }
 
-input[type=submit] {
+input[type=search-submit] {
     width: 100%;
     background-color: #d9534f;
     color: white;
@@ -444,4 +449,46 @@ input[type=submit]:hover {
     padding: 8px 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.about--block {
+    width: 60%;
+}
+
+.index--top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.register--cat {
+    max-width:100%;
+    max-height:100%;
+}
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                PROFILE PAGE                                */
+/* -------------------------------------------------------------------------- */
+
+.profile-pic{
+    max-width: 200px;
+    max-height:200px;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.row {
+    display: grid;
+    grid-template-areas: 
+    "one two two"
+    "one two two";
+}
+
+.pro-left{
+    grid-area: one;
+}
+
+.pro-right{
+    grid-area: two;
 }
