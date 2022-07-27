@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.views.generic import ListView
 from django.contrib import messages
 from django.contrib.auth.models import Group
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .decorators import unauthenticated_user
@@ -38,27 +39,27 @@ from django.contrib.auth.decorators import login_required
 
 @unauthenticated_user
 def registerPage(request):
-	form = CreateUserForm()
-	if request.method == 'POST':
-		form = CreateUserForm(request.POST)
-		if form.is_valid():
-			user = form.save()
-			username = form.cleaned_data.get('username')
-
-			group = Group.objects.get(name='member')
-			user.groups.add(group)
-			Member.objects.create(
+  error_message = ''
+  if request.method == 'POST':
+    form = CreateUserForm(request.POST)
+    if form.is_valid():
+      user = form.save()
+      username = form.cleaned_data.get('username')
+      group = Group.objects.get(name='member')
+      user.groups.add(group)
+      Member.objects.create(
 				user=user,
 				name=user.username,
         email=user.email,
         profile_pic="profile-image.png"
 				)
-
-			messages.success(request, 'Account was created for ' + username)
-
-			return redirect('login')
-	context = {'form':form}
-	return render(request, 'accounts/register.html', context)
+      messages.success(request, 'Account was created for ' + username)
+      return redirect('login')
+  else:
+    error_message = "Invalid Sign up -try again"  
+  form = CreateUserForm()
+  context = {'form':form, 'error_message': error_message}
+  return render(request, 'accounts/register.html', context)
 
 
 
