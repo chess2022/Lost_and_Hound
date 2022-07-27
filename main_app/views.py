@@ -123,7 +123,7 @@ def pets_detail(request, pet_id):
   return render(request, 'pets/detail.html', {'pet': pet, 'pet_form': pet_form, 'pets': pets})
 
 
-@login_required(login_url='login')
+# @login_required(login_url='login')
 def pets_create_photo(request, pet_id):
   pet = Pet.objects.get(id=pet_id)
   pet_form = PetForm()
