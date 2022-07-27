@@ -1,4 +1,4 @@
-
+import os
 
 from pathlib import Path
 
@@ -69,7 +69,7 @@ WSGI_APPLICATION = 'lostandhound.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'lostandhound',
+        'NAME': 'lostandhound7',
     }
 }
 
@@ -113,10 +113,19 @@ STATIC_URL = 'static/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-# Add this variable to specify where successful logins should redirect to
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/pets/'
 # Add this variable to specify where logging out redirects to
 LOGOUT_REDIRECT_URL = '/'
+
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
+
+
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
