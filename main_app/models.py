@@ -16,7 +16,9 @@ class Member(models.Model):
 
 class Pet(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE)
-    member = models.ForeignKey(Member, null=True, on_delete= models.SET_NULL)  
+    member = models.ForeignKey(Member, null=True, on_delete= models.SET_NULL) 
+    phone_regex = RegexValidator(regex=r'^([0-9]{3}[\-]{1}[0-9]{3}[\-]{1}[0-9]{4})$')
+    phone = models.CharField(validators=[phone_regex], max_length=17, help_text='Phone number must be entered in the format: 000-000-0000.', blank=True)
     DOG = 'DOG'
     CAT = 'CAT'
     OTHER = 'PET'
