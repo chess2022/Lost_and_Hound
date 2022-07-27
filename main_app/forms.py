@@ -5,8 +5,6 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.forms import ModelForm
 from .models import Pet, Member
-
-
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -20,7 +18,6 @@ class MemberForm(ModelForm):
 	class Meta:
 		model = Member
 		fields = '__all__'
-		exclude = ['user']
 
 
 class CreateUserForm(UserCreationForm):

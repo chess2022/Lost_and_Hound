@@ -389,6 +389,7 @@ button {
 input, select {
     width: 100%;
     max-width: 400px;
+    min-height: 40px;
     padding: 12px 20px;
     margin: 1px 0;
     display: inline-block;
@@ -428,6 +429,10 @@ input[type=submit]:hover {
     background-color: white;
     border: 1px solid #d9534f;
     color:#d9534f
+}
+
+.helptext {
+    font-size:small;
 }
 
 /*********************************/
