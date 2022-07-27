@@ -1,5 +1,6 @@
 .env
 lostandhound/.env
+**/__pycache__
 
 ### OSX ###
 .DS_Store
