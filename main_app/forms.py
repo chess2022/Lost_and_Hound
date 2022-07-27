@@ -4,12 +4,26 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.forms import ModelForm
-from .models import Pet 
+from .models import Pet, Member
+
+
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+# from django.core.validators import RegexValidator
+from django.forms import ModelForm
+from .models import Member, Pet 
+
+
+    
+class MemberForm(ModelForm):
+	class Meta:
+		model = Member
+		fields = '__all__'
+		exclude = ['user']
+
 
 class CreateUserForm(UserCreationForm):
-  phone_regex = RegexValidator(regex=r'^([0-9]{3}[\-]{1}[0-9]{3}[\-]{1}[0-9]{4})$')
-  phone = forms.CharField(validators=[phone_regex], max_length=17, help_text='Phone number must be entered in the format: 000-000-0000.')
-  name = forms.CharField(max_length=30, required=True, help_text='Required.')
   class Meta:
     model = User
     fields = ['username', 'email', 'password1', 'password2']
@@ -37,8 +51,3 @@ class PetForm(ModelForm):
     exclude = ['user']
   
 
-
-# class PetForm(ModelForm):
-#   class Meta:
-#     model = Pet
-#     fields = '__all__'

@@ -1,3 +1,4 @@
+import profile
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import ListView
@@ -8,9 +9,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .decorators import unauthenticated_user
 from django.template.loader import render_to_string
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
-from .models import Pet, Photo
-from .forms import PetForm, CreateUserForm
+from .models import Pet, Photo, Member
+from .forms import PetForm, CreateUserForm, MemberForm
 from io import BytesIO
+from django.urls import reverse
 from xhtml2pdf import pisa
 import uuid
 import boto3
@@ -32,37 +34,55 @@ BUCKET='lost-and-hound'
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-# @unauthenticated_user
-# def registerPage(request):
-# 	form = CreateUserForm()
-# 	if request.method == 'POST':
-# 		form = CreateUserForm(request.POST)
-# 		if form.is_valid():
-# 			user = form.save()
-# 			username = form.cleaned_data.get('username')
-      
-# 			group = Group.objects.get(name='member')
-# 			user.groups.add(group)
-			
+
 @unauthenticated_user
 def registerPage(request):
-    error_message = ''
-    if request.method == 'POST':
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            group = Group.objects.get(name='member')
-            user.groups.add(group)
-            return redirect('login')
-        else:
-            error_message = 'Invalid sign-up. Please try again'
-    form = CreateUserForm()
-    context = {'form': form, 'error_message': error_message}
-    return render(request, 'accounts/register.html', context)
+	form = CreateUserForm()
+	if request.method == 'POST':
+		form = CreateUserForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			username = form.cleaned_data.get('username')
+
+			group = Group.objects.get(name='member')
+			user.groups.add(group)
+			Member.objects.create(
+				user=user,
+				name=user.username,
+        email=user.email,
+        profile_pic="profile-image.png"
+				)
+
+			messages.success(request, 'Account was created for ' + username)
+
+			return redirect('login')
+		
+
+	context = {'form':form}
+	return render(request, 'accounts/register.html', context)
+
+
+
+ 
+# @unauthenticated_user
+# def registerPage(request):
+#     error_message = ''
+#     if request.method == 'POST':
+#         form = CreateUserForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             username = form.cleaned_data.get('username')
+#             raw_password = form.cleaned_data.get('password1')
+#             user = authenticate(username=username, password=raw_password)
+#             login(request, user)
+#             group = Group.objects.get(name='member')
+#             user.groups.add(group)
+#             return redirect('login')
+#         else:
+#             error_message = 'Invalid sign-up. Please try again'
+#     form = CreateUserForm()
+#     context = {'form': form, 'error_message': error_message}
+#     return render(request, 'accounts/register.html', context)
 
 @unauthenticated_user
 def loginPage(request):
@@ -80,6 +100,21 @@ def loginPage(request):
 
 	context = {}
 	return render(request, '/accounts/login.html/', context)
+
+
+
+def accountSettings (request):
+	member = request.user.member
+	form = MemberForm(instance=member)
+
+	if request.method == 'POST':
+		form = MemberForm(request.POST, request.FILES, instance=member)
+		if form.is_valid():
+			form.save()
+	context = {'form':form}
+	return render(request, 'accounts/account_settings.html', context)
+
+
 
 
 def logoutUser(request):
@@ -126,7 +161,8 @@ class PetCreate(LoginRequiredMixin, CreateView):
 
 class PetUpdate(LoginRequiredMixin, UpdateView):
   model = Pet
-  fields = ['type', 'name', 'city', 'state', 'breed', 'sex', 'comments', 'status']
+  fields = ['type', 'name', 'city', 'state', 'breed', 'sex', 'comments', 'status', ]
+  # success_url = f'/pets/{pk}/pet_form_photo/'
 
 class PetDelete(DeleteView):
   model = Pet

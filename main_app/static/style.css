@@ -445,3 +445,32 @@ input[type=submit]:hover {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+
+
+
+/* -------------------------------------------------------------------------- */
+/*                                PROFILE PAGE                                */
+/* -------------------------------------------------------------------------- */
+
+.profile-pic{
+    max-width: 200px;
+    max-height:200px;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
+.row {
+    display: grid;
+    grid-template-areas: 
+    "one two two"
+    "one two two";
+}
+
+.pro-left{
+    grid-area: one;
+}
+
+.pro-right{
+    grid-area: two;
+}
