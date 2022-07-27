@@ -9,33 +9,28 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;500&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <title>Lost and Hound</title>
 </head>
 <body class="secondary">
   <header>
     <nav id="nav">
       <a href="{% url 'home' %}"><img id="logo" src="{% static 'logo.png' %}"></a>
-      <div class="btn-group dropstart" style="float:right">
-        <button type="button" class="btn btn-danger dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown">
+      <div class="dropdown" style="float:right">
+        <button class="dropbtn">
           menu
         </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="{% url 'about' %}">About</a></li>
-          <li><a class="dropdown-item" href="{% url 'index' %}">Lost Pets</a></li>
+        <div class="dropdown-content">
+          <a href="{% url 'about' %}">About</a>
+          <a href="{% url 'index' %}">Lost Pets</a>
           {% if user.is_authenticated %}
-          <li><a class="dropdown-item" href="{% url 'pets_create' %}">Post</a></li>
-          <li class="dropdown-divider"></li>
-          <li><a class="dropdown-item" href="{% url 'logout' %}">Log out</a></li>
-          <span id="hello-msg">Hello, {{request.user}}</span>
+          <a href="{% url 'pets_create' %}">Post</a>
+          <a href="{% url 'logout' %}">Log out</a>
+          <a><h3 id="hello-msg">Hello, {{request.user}}</h3></a>
           {% else %} 
-          <li class="dropdown-divider"></li> 
-          <li><a class="dropdown-item" href="{% url 'signup' %}">Sign Up</a></li>
-          <li><a class="dropdown-item" href="{% url 'login' %}">Log In</a></li>
+          <a href="{% url 'register' %}">Sign Up</a>
+          <a href="{% url 'login' %}">Log In</a>
             {% endif %}
-        </ul>
+        </div>
       </div>
     </nav> 
   </header>
@@ -45,8 +40,5 @@
           {% endblock %}
   </main>
 
-  <footer>
-    <div>Footer</div>
-  </footer>
 </body>
 </html>

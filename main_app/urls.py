@@ -1,18 +1,14 @@
 from django.urls import path
 from . import views
-from django.conf import settings
-from django.conf.urls.static import static
+
 
 urlpatterns = [
   path('register/', views.registerPage, name="register"),
   path('login/', views.loginPage, name="login"),  
 	path('logout/', views.logoutUser, name="logout"),
-  path('user/', views.userPage, name="user-page"),
- 
- 
+
   path('', views.home, name='home'), #HOME ROUTE
   path('about/', views.about, name='about'), #ABOUT ROUTE
-  # path('accounts/signup/', views.signup, name='signup'), #SIGNUP ROUTE 
   path('pets/', views.pets_index, name='index'),
   path('pets/<int:pet_id>/', views.pets_detail, name='detail'),
   path('pets/create/', views.PetCreate.as_view(), name='pets_create'),
@@ -23,5 +19,5 @@ urlpatterns = [
   path('generate-pdf', views.generate_pdf, name='generate_pdf'),
   path('generate-pdf-through-template', views.generate_pdf_through_template, name='generate_pdf_through_template'),
   path('render-pdf/<int:pet_id>', views.render_pdf, name="render_pdf"),
+  path('search_pets', views.search_pets, name='search_pets'),
 ] 
-# + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

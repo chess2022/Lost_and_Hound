@@ -3,30 +3,34 @@
 {% block content %}
 
 <div class="title_flags top-margin">
-    <h3 style:"font-weight:bold">Featured Lost Pets</h3>
+    <h3>Featured Lost Pets</h3>
+</div>
+<div>
+  <form method=POST action="{% url 'search_pets'%}">
+    {% csrf_token %}
+    <input type="search" placeholder="Search Pets" aria-label="Search" name="searched">
+    <button class="btn">Search</button>
+  </form>
 </div>
 
-
+<div class="index--grid">
 {% for pet in pets %}
-  <a href="{% url 'detail' pet.id %}">
-    <div class="container">
-      <div class="row row-cols-auto">
-        <div class="index--card-photo">
-            <div class="pet-photo">   
-            {% for photo in pet.photo_set.all %}
-                <img src="{{photo.url}}" width='150px' ">
-            {% empty %}
-                <div><img src="{% static 'noPhoto.png' %}" width='150px'"></div>
-            {% endfor %}
-                </form></div>
-        </div>
-        <div class="index--card-info">
-            <h4>{{ pet.name }}</h4>
-            <h5>{{ pet.city }}, {{ pet.state }}
-        </div>
+      <div class="index--itemBox">
+          <a href="{% url 'detail' pet.id %}">
+            <div class="index--overlay">
+                <div class="index--overlayText">
+                  <h2>{{ pet.name }}</h2>
+                  <h3>{{ pet.city }}, {{ pet.state }}</h3>
+                </div>
+            </div>              
+                  {% for photo in pet.photo_set.all %}
+                      <img class="index--card-photo" src="{{photo.url}}">
+                  {% empty %}
+                      <img class="index--card-photo" src="https://lostandhound.s3.us-west-2.amazonaws.com/noPhoto.png">
+                  {% endfor %}
+          </a>
       </div>
-    </div>
-  </a>
-{% endfor %}
 
+{% endfor %}
+</div>
 {% endblock %}

@@ -116,7 +116,7 @@
         <td class="photo">
             <div>
             {% for photo in pet.photo_set.all %}
-            <img src="{{ photo.url }}" class="results-photo"></div>
+            <img src="{{ photo.url }}" class="results-photo" alt="Lost pet photo"></div>
             {% empty %}
             <div class="results--placeholder">No Photo Available</div>
             {% endfor %}
@@ -131,7 +131,7 @@
     <tr class="footer">
         <td td colspan="2" class="footer-info">
             <h1>CALL OR TEXT WITH ANY INFORMATION</h1>
-            <h1 class="phone">{{ user.phone }}</h1>
+            <h1 class="phone">{{ member.phone }}</h1>
         <td>
     </tr>
 </table>

@@ -1,0 +1,16 @@
+{% include 'pets/index.html' %}
+
+{% block content %}
+<center>
+  {% if searched %}
+    <br/>
+    {% for pet in pets %}
+    <h1>{{ pet.name }} - Currently {{ pet.status }}</h1><br>
+    <h2>Location: {{ pet.city}}, {{ pet.state }}</h2> <br>
+    {% endfor %}
+  {% else %}
+    <h1>Hey, you didn't search for any pets, how will they be found otherwise?</h1>
+  {% endif %}
+</center>
+
+{% endblock %}
