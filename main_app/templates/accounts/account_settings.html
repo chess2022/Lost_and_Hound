@@ -39,7 +39,7 @@
         <h3 style="">Account Settings</h3>
     </div>
     <br>
-    <a class="" href="{% url 'home' %}"> &#8592; Back to Profile</a>
+    <a class="" href="{% url 'home' %}"> &#8592; Back to Home</a>
 </div>
 <br><br>
     <div class="container3cols">
@@ -64,7 +64,7 @@
     </div>
  
     <div class="title_flags top-margin">
-    <h3>Featured Lost Pets</h3>
+    <h3>{{request.user.member.name}}'s POSTINGS</h3>
 </div>
     <br/><br/>
         <div class="index-single-container">
