@@ -40,7 +40,7 @@
                 <h4 class="field-box">{{ member.phone }}</h4>
                 <h4 class="field-box">{{ pet.comments }}</h4>
                 <br/>
-                <a href="{% url 'pets_update' pet.id %}"><button class="button-pink">Edit</buton></a>
+                {% comment %} <a href="{% url 'pets_update' pet.id %}"><button class="button-pink">Edit</buton></a> {% endcomment %}
                 <a href="{% url 'pets_delete' pet.id %}"><button class="button-pink">Delete</button></a>
             </div>
         </div>

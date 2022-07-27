@@ -1,15 +1,18 @@
 {% extends 'base2.html' %}
 {% block content %}
+  {% load static %}
 
 
 <div class="title_flags top-margin">
-    <h3>Featured Lost Pets</h3>
+    <h3>Create an Account</h3>
 </div>
 <br/><br/>
 {% if error_message %}<p class="red-text">{{ error_message }}</p>{% endif %}
 
 <div class="container3cols">
-	<div></div>
+	<div class>
+		<img class="register--cat" src="{% static 'cat.png' %}">
+	</div>
 	<div>
 		<form method="POST" action="">
 			{% csrf_token %}
