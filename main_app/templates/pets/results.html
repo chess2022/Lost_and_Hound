@@ -55,7 +55,7 @@
     .name {
         font-family: helvetica;
         font-weight: bold;
-        font-size: 60pt;
+        font-size: 40pt;
         margin: 0;
         padding-bottom: 0;
         {% comment %} -pdf-keep-in-frame-mode: shrink;    {% endcomment %}
@@ -90,16 +90,31 @@
     .footer {
         width: 600pt;
         top: 617pt;
-        height: 175pt;
+        height: 200pt;
         background-color: #eb0915;
         text-align: center;
+        color: white;
+        font-family: helvetica;
+        font-weight: bold;
+        font-size: 275pt;
+        width: 100%;
+        line-height: 190pt;
     }
 
     .footer-info {
         color: white;
-        font-size: 150pt;
-        line-height: 175pt;
         width: 100%;
+    }
+
+    #call-line {
+        font-size:100pt;
+    }
+
+    .phone {
+        font-weight: bold;
+        font-size: 275pt;
+        width: 100%;
+        margin-top: 0;
     }
 
     {% comment %} .phone {
@@ -130,8 +145,8 @@
     
     <tr class="footer">
         <td td colspan="2" class="footer-info">
-            <h1>CALL OR TEXT WITH ANY INFORMATION</h1>
-            <h1 class="phone">{{ member.phone }}</h1>
+            <h1 id="call-line">CALL OR TEXT WITH ANY INFORMATION</h1>
+            <h1 class="phone">{{ pet.phone }}</h1>
         <td>
     </tr>
 </table>

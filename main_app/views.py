@@ -159,7 +159,7 @@ class PetDelete(LoginRequiredMixin, DeleteView):
   success_url = '/pets/'
   def get_object(self, queryset=None):
     pet = super(PetDelete, self).get_object()
-    if not cat.user == self.request.user:
+    if not pet.user == self.request.user:
       raise Http404
     return pet
       
