@@ -1,7 +1,6 @@
 .env
 lostandhound/.env
 
-
 ### OSX ###
 .DS_Store
 .AppleDouble
@@ -91,3 +90,6 @@ local_settings.py
 
 *.pyc
 *.pyc
+=======
+*/__pycache__/*
+
