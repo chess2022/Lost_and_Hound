@@ -451,8 +451,8 @@ input[type=submit]:hover {
     margin-bottom: 10px;
 }
 
-.about {
-    width: 50%;
+.about--block {
+    width: 60%;
 }
 
 .index--top {
