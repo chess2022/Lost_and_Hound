@@ -104,15 +104,15 @@ def loginPage(request):
 
 
 def accountSettings (request):
-	member = request.user.member
-	form = MemberForm(instance=member)
-
-	if request.method == 'POST':
-		form = MemberForm(request.POST, request.FILES, instance=member)
-		if form.is_valid():
-			form.save()
-	context = {'form':form}
-	return render(request, 'accounts/account_settings.html', context)
+    member = request.user.member
+    form = MemberForm(instance=member)
+    pets = Pet.objects.order_by('id')
+    if request.method == 'POST':
+      form = MemberForm(request.POST, request.FILES, instance=member)
+      if form.is_valid():
+        form.save()
+    context = {'form':form, 'pets':pets}
+    return render(request, 'accounts/account_settings.html', context)
 
 
 

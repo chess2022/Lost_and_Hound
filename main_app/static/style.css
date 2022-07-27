@@ -430,6 +430,10 @@ input[type=submit]:hover {
     color:#d9534f
 }
 
+.helptext {
+    font-size:small;
+}
+
 /*********************************/
 
 .field-label {
