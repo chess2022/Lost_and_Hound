@@ -20,7 +20,6 @@ class MemberForm(ModelForm):
 	class Meta:
 		model = Member
 		fields = '__all__'
-		exclude = ['user']
 
 
 class CreateUserForm(UserCreationForm):

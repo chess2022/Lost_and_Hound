@@ -29,9 +29,11 @@
                 <h4 class="field-box">{{ pet.sex }}</h4>
                 <h4 class="field-box">{{ pet.comments }}</h4>
                 <br/>
+                {% if request.user.id == pet.user_id %}
                 <a href="{% url 'pets_update' pet.id %}"><button class="button-pink">Edit</buton></a>
                 <a href="{% url 'pets_delete' pet.id %}"><button class="button-pink">Delete</button></a>
                 <a href="{% url 'render_pdf' pet.id %}" target="_blank"><button class="button-pink">Get Flyer</button></a>
+                {% endif %}
                 <a href="mailto:{{ pet.user.email }}?subject=Regarding%20{{ pet.status }}%20{{ pet.type }},%20{{ pet.name }}" target="_blank"><button class="button-pink">Contact</button></a>
             </div>
         </div>
@@ -40,6 +42,7 @@
     <h3>Featured Lost Pets</h3>
 </div>
     <br/><br/>
+    {{p}}
         <div class="index-single-container">
             <div class="index--grid--oneRow">
             {% for pet in pets %}

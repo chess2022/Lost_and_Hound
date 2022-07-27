@@ -21,6 +21,7 @@ from django.conf import settings
 from django.contrib.staticfiles import finders
 import os
 from django.db.models import Max
+from django.http import Http404
 
 
 S3_BASE_URL='https://s3-us-west-2.amazonaws.com/'
@@ -56,33 +57,12 @@ def registerPage(request):
 			messages.success(request, 'Account was created for ' + username)
 
 			return redirect('login')
-		
-
 	context = {'form':form}
 	return render(request, 'accounts/register.html', context)
 
 
 
- 
-# @unauthenticated_user
-# def registerPage(request):
-#     error_message = ''
-#     if request.method == 'POST':
-#         form = CreateUserForm(request.POST)
-#         if form.is_valid():
-#             form.save()
-#             username = form.cleaned_data.get('username')
-#             raw_password = form.cleaned_data.get('password1')
-#             user = authenticate(username=username, password=raw_password)
-#             login(request, user)
-#             group = Group.objects.get(name='member')
-#             user.groups.add(group)
-#             return redirect('login')
-#         else:
-#             error_message = 'Invalid sign-up. Please try again'
-#     form = CreateUserForm()
-#     context = {'form': form, 'error_message': error_message}
-#     return render(request, 'accounts/register.html', context)
+
 
 @unauthenticated_user
 def loginPage(request):
@@ -102,7 +82,7 @@ def loginPage(request):
 	return render(request, '/accounts/login.html/', context)
 
 
-
+@login_required(login_url='login')
 def accountSettings (request):
 	member = request.user.member
 	form = MemberForm(instance=member)
@@ -141,6 +121,8 @@ def pets_detail(request, pet_id):
   pet_form = PetForm()
   return render(request, 'pets/detail.html', {'pet': pet, 'pet_form': pet_form, 'pets': pets})
 
+
+@login_required(login_url='login')
 def pets_create_photo(request, pet_id):
   pet = Pet.objects.get(id=pet_id)
   pet_form = PetForm()
@@ -159,16 +141,31 @@ class PetCreate(LoginRequiredMixin, CreateView):
     pk = Pet.objects.aggregate(Max('id')).get('id__max')+1
     success_url = f'/pets/{pk}/pet_form_photo/'
 
+
+
+
 class PetUpdate(LoginRequiredMixin, UpdateView):
   model = Pet
   fields = ['type', 'name', 'city', 'state', 'breed', 'sex', 'comments', 'status', ]
   # success_url = f'/pets/{pk}/pet_form_photo/'
 
-class PetDelete(DeleteView):
+
+
+  
+  
+class PetDelete(LoginRequiredMixin, DeleteView):
   model = Pet
   success_url = '/pets/'
+  def get_object(self, queryset=None):
+    pet = super(PetDelete, self).get_object()
+    if not cat.user == self.request.user:
+      raise Http404
+    return pet
+      
 
 
+
+@login_required(login_url='login')
 def add_photo(request, pet_id):
   photo_file = request.FILES.get('photo-file', None)
   if photo_file:
