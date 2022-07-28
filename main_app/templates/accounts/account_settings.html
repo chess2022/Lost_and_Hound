@@ -70,6 +70,7 @@
         <div class="index-single-container">
             <div class="index--grid--oneRow">
             {% for pet in pets %}
+            {% if request.user.id == pet.user_id %}
                 <div class="index--itemBox">
                     <a href="{% url 'detail' pet.id %}">
                         <div class="index--overlay">
@@ -77,7 +78,7 @@
                             <h2>{{ pet.name }}</h2>
                             <h3>{{ pet.city }}, {{ pet.state }}</h3>
                             </div>
-                        </div>              
+                        </div>   
                     {% for photo in pet.photo_set.all %}
                         <img class="index--card-photo" src="{{photo.url}}">
                     {% empty %}
@@ -85,12 +86,10 @@
                     {% endfor %}
                     </a>
                 </div>
+            {% endif %}
             {% endfor %}
             </div>
-            {% comment %} <div class="index--itemBox-more"><a href="{% url 'index' %}">See more <i class="arrow right"></i></a></div> {% endcomment %}
         </div>
 
 </body>
 </html>
-
-

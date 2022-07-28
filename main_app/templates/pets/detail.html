@@ -30,7 +30,7 @@
                 <h4 class="field-box">{{ pet.comments }}</h4>
                 <br/>
 
-            {% if user.is_authenticated %}
+            {% if request.user.id == pet.user_id %}                
                 <a href="{% url 'pets_update' pet.id %}"><button class="button-pink">Edit</buton></a>
                 <a href="{% url 'pets_delete' pet.id %}"><button class="button-pink">Delete</button></a>
                 <a href="{% url 'render_pdf' pet.id %}" target="_blank"><button class="button-pink">Get Flyer</button></a>

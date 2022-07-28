@@ -242,9 +242,11 @@ button {
     color:#442214;
 }
 
-/* .home--intro {
-    width: 35%;
-} */
+.home--intro {
+    width: 80%;
+    font-size: 16px;
+    line-height: 1.75em;
+}
 
 .home--main {
     grid-area: main;
@@ -388,7 +390,7 @@ button {
 
 input, select {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     min-height: 40px;
     padding: 12px 20px;
     margin: 1px 0;

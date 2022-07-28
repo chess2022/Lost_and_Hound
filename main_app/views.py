@@ -146,10 +146,9 @@ class PetCreate(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+    # pk = Pet.objects.latest('id').id+1    
     pk = Pet.objects.aggregate(Max('id')).get('id__max')+1
     success_url = f'/pets/{pk}/pet_form_photo/'
-
-
 
 
 class PetUpdate(LoginRequiredMixin, UpdateView):
