@@ -139,11 +139,14 @@ def pets_create_photo(request, pet_id):
 class PetList(ListView):
   model = Pet
 
+
+key = Pet.objects.aggregate(Max('id')).get('id__max')+1
+
 class PetCreate(LoginRequiredMixin, CreateView):
     form_class = PetForm
     model = Pet
     # pk = Pet.objects.latest('id').id+1    
-    key = Pet.objects.aggregate(Max('id')).get('id__max')+1
+    # key = Pet.objects.aggregate(Max('id')).get('id__max')+1
     template_name = 'main_app/pet_form.html'
     def form_valid(self, form):
         form.instance.user = self.request.user
