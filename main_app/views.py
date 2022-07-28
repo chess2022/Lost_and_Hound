@@ -142,12 +142,12 @@ class PetList(ListView):
 class PetCreate(LoginRequiredMixin, CreateView):
     form_class = PetForm
     model = Pet
+    # pk = Pet.objects.latest('id').id+1    
+    pk = Pet.objects.aggregate(Max('id')).get('id__max')+1
     template_name = 'main_app/pet_form.html'
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-    # pk = Pet.objects.latest('id').id+1    
-    pk = Pet.objects.aggregate(Max('id')).get('id__max')+1
     success_url = f'/pets/{pk}/pet_form_photo/'
 
 
