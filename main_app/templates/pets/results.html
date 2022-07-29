@@ -1,4 +1,4 @@
-{% load static %}
+{% comment %} {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,7 +58,6 @@
         font-size: 40pt;
         margin: 0;
         padding-bottom: 0;
-        {% comment %} -pdf-keep-in-frame-mode: shrink;    {% endcomment %}
     }
 
     .sex {
@@ -67,7 +66,6 @@
         font-size: 18pt;
         margin: 0;
         padding-top: 0;
-        {% comment %} -pdf-keep-in-frame-mode: shrink;    {% endcomment %}
     }
 
     .comments {
@@ -75,7 +73,6 @@
         font-weight: bold;
         font-size: 12pt;
         margin: 0;
-        {% comment %} -pdf-keep-in-frame-mode: shrink;    {% endcomment %}
     }
 
     .photo {
@@ -117,9 +114,7 @@
         margin-top: 0;
     }
 
-    {% comment %} .phone {
 
-    } {% endcomment %}
 
     </style>  
 </head>
@@ -154,4 +149,4 @@
 </html>
 
 
-
+ {% endcomment %}

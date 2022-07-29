@@ -20,7 +20,7 @@
           menu
         </button>
         <div class="dropdown-content">
-          <a href="{% url 'about' %}">About</a>
+          {% comment %} <a href="{% url 'about' %}">About</a>
           <a href="{% url 'index' %}">Lost Pets</a>
           {% if user.is_authenticated %}
           <a href="{% url 'pets_create' %}">Post</a>
@@ -30,7 +30,7 @@
           {% else %} 
           <a href="{% url 'register' %}">Sign Up</a>
           <a href="{% url 'login' %}">Log In</a>
-            {% endif %}
+            {% endif %} {% endcomment %}
         </div>
       </div>
     

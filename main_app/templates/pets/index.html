@@ -1,8 +1,7 @@
-{% load static %}
+{% comment %} {% load static %}
 {% include 'base3.html' %}
 {% block content %}
 
-{% comment %} <div class="index--top"> {% endcomment %}
 <div class="title_flags top-margin">
     <h3>Featured Lost Pets</h3>
 </div>
@@ -13,7 +12,6 @@
     <button class="btn">Search</button>
   </form>
 </div>
-{% comment %} </div> {% endcomment %}
 
 <div class="index--grid">
 {% for pet in pets %}
@@ -35,4 +33,4 @@
 
 {% endfor %}
 </div>
-{% endblock %}
+{% endblock %} {% endcomment %}

@@ -7,10 +7,10 @@
         <br/><br/>
         <p class="home--intro">You're here because you found a pet or lost a pet.  You've come to the right place.  Whether your pup said "I hate you, I'm running away!" or you simply forgot them at the dog park, or a pup showed up and now you have a dog, our site is geared to help you get them back and/or to the rightful pawrents!</p>
     </div>
-    <div class="home--buttons">
+    {% comment %} <div class="home--buttons">
         <a href="{% url 'pets_create' %}"><button class="button-pink">Post lost Pet</button></a>
         <a href="{% url 'index' %}"><button class="button-pink">Find lost Pets</button></a>
-    </div>
+    </div> {% endcomment %}
     <div class="home--featured">
         <div class="title_flags" >
             <h3>Featured Lost Pets</h3>
@@ -21,7 +21,7 @@
             <div class="index--grid--oneRow">
             {% for pet in pets %}
                 <div class="index--itemBox">
-                    <a href="{% url 'detail' pet.id %}">
+                    {% comment %} <a href="{% url 'detail' pet.id %}"> {% endcomment %}
                         <div class="index--overlay">
                             <div class="index--overlayText">
                             <h2>{{ pet.name }}</h2>
@@ -37,7 +37,7 @@
                 </div>
             {% endfor %}
             </div>
-            <div class="index--itemBox-more"><a href="{% url 'index' %}">See more <i class="arrow right"></i></a></div>
+            {% comment %} <div class="index--itemBox-more"><a href="{% url 'index' %}">See more <i class="arrow right"></i></a></div> {% endcomment %}
         </div>
 
 
