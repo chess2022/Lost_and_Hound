@@ -1,15 +1,13 @@
-import profile
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.views.generic import ListView
 from django.contrib import messages
 from django.contrib.auth.models import Group
-
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .decorators import unauthenticated_user
 from django.template.loader import render_to_string
-from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Pet, Photo, Member
 from .forms import PetForm, CreateUserForm, MemberForm
 from io import BytesIO
@@ -17,13 +15,12 @@ from django.urls import reverse
 from xhtml2pdf import pisa
 import uuid
 import boto3
-from django.db.models import Q
+from django.db.models import Q, Max
 from django.conf import settings
 from django.contrib.staticfiles import finders
 import os
-from django.db.models import Max
-from django.http import Http404
-from django.db.models.signals import pre_save
+
+
 
 S3_BASE_URL='https://s3-us-west-2.amazonaws.com/'
 BUCKET='lostandhound'
@@ -35,13 +32,6 @@ BUCKET='lostandhound'
 # ------------------------- KL-todo apply auth routes ------------------------ #
 from django.contrib.auth.decorators import login_required
 # Create your views here.
-
-# def ready(self):
-#     # importing model classes
-#     from .models import Pet, Member, Photo  
-
-#     # registering signals with the model's string label
-#     pre_save.connect(receiver, sender=['main_app.Pet','main_app.Member','main_app.Photo'])
 
 
 @unauthenticated_user
@@ -67,9 +57,6 @@ def registerPage(request):
   form = CreateUserForm()
   context = {'form':form, 'error_message': error_message}
   return render(request, 'accounts/register.html', context)
-
-
-
 
 
 @unauthenticated_user
@@ -103,12 +90,9 @@ def accountSettings (request):
     return render(request, 'accounts/account_settings.html', context)
 
 
-
-
 def logoutUser(request):
 	logout(request)
 	return redirect('login')
-
 
 
 def home(request):
@@ -130,7 +114,7 @@ def pets_detail(request, pet_id):
   return render(request, 'pets/detail.html', {'pet': pet, 'pet_form': pet_form, 'pets': pets})
 
 
-# @login_required(login_url='login')
+@login_required(login_url='login')
 def pets_create_photo(request, pet_id):
   pet = Pet.objects.get(id=pet_id)
   pet_form = PetForm()
@@ -140,13 +124,11 @@ class PetList(ListView):
   model = Pet
 
 
-key = Pet.objects.aggregate(Max('id')).get('id__max')+1
-
 class PetCreate(LoginRequiredMixin, CreateView):
     form_class = PetForm
     model = Pet
     # pk = Pet.objects.latest('id').id+1    
-    # key = Pet.objects.aggregate(Max('id')).get('id__max')+1
+    key = Pet.objects.aggregate(Max('id')).get('id__max')+1
     template_name = 'main_app/pet_form.html'
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -225,6 +207,7 @@ def link_callback(uri, rel):
             )
         return path
 
+# test view
 def generate_pdf(request):
     html = '<html><body><p>To PDF or not to PDF</p></body></html>'
     write_to_file = open('media/test.pdf', "w+b")
@@ -232,7 +215,7 @@ def generate_pdf(request):
     write_to_file.close()
     return HttpResponse(result.err)
 
-
+# test view
 def generate_pdf_through_template(request):
     context={}
     html = render_to_string('pdf/results',context)   
